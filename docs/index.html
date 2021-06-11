@@ -83,38 +83,36 @@
 <em>ITERATE:</em> removing the samples selected in the REFINE step from the global distribution, the same process is reapplied, the final mode corresponding to the iteration with the largest number of samples.</li>
 </ul>
 <p>To browse and test this package in an online RStudio environment, follow the link below:</p>
-<p><a href="https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?urlpath=lab"><img src="https://mybinder.org/badge_logo.svg" alt="Binder"></a></p>
+<p><a href="https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?urlpath=rstudio"><img src="https://mybinder.org/badge_logo.svg" alt="Binder"></a></p>
 <p>To cite this package, please refer to:</p>
 <p><em>Adrien Brilhault, Sergio Neuenschwander, and Ricardo Rios - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - Behavior Research Methods, 2021 (submitted)</em> <br><br></p>
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
-<p>To install BRIL from this <a href="https://github.com/adrienbrilhault/BRIL">GitHub repository</a> , add first the <a href="https://github.com/r-lib/remotes">remotes</a> package if missing.</p>
+<p>To install BRIL from the <a href="https://github.com/adrienbrilhault/BRIL">GitHub repository</a>, add first the <a href="https://github.com/r-lib/remotes">remotes</a> package if missing.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></code></pre></div>
-<p>Then proceed to the installation of the BRIL package with its dependencies using the <code>install_github</code> function from <a href="https://github.com/r-lib/remotes">remotes</a>.</p>
+<p>Then proceed to the installation of the BRIL package and its dependencies using the <code>install_github</code> function from <a href="https://github.com/r-lib/remotes">remotes</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"adrienbril/BRIL"</span>, subdir <span class="op">=</span> <span class="st">"pkg"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"adrienbrilhault/BRIL"</span>, subdir <span class="op">=</span> <span class="st">"pkg"</span><span class="op">)</span></code></pre></div>
 <p><br></p>
 </div>
 <div id="documentation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#documentation" class="anchor"></a>Documentation</h3>
-<p>After loading the package, refer to its documentation directly in the R environment, or, alternatively, consulting the <a href="https://github.com/adrienbrilhault/BRIL/raw/master/pkg/BRIL-manual.pdf">pdf manual</a>.</p>
+<p>The package documentation is available in <a href="https://github.com/adrienbrilhault/BRIL/raw/master/pkg/BRIL-manual.pdf">BRIL-manual.pdf</a>, at <a href="https://adrienbrilhault.github.io/BRIL/">adrienbrilhault.github.io/BRIL/</a>, and directly in the R environment with the <code>help()</code> commmands.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/adrienbrilhault/BRIL">BRIL</a></span><span class="op">)</span>
-
-<span class="co"># main documantation page</span>
+<code class="sourceCode R"><span class="co"># main documentation page</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/help.html">help</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"BRIL"</span><span class="op">)</span>
 
 <span class="co"># bril() function help</span>
-<span class="op">?</span><span class="fu"><a href="reference/bril.html">bril</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="op">?</span><span class="fu">BRIL</span><span class="fu">::</span><span class="fu"><a href="reference/bril.html">bril</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><br></p>
 </div>
 <div id="example" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h3>
-<p>If absent, install the <a href="https://CRAN.R-project.org/package=mvtnorm">mvtnorm</a> package from CRAN with the command <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("mvtnorm")</a></code>. Then try the following example, which creates a sample multivariate mixture, and estimates its main mode.</p>
+<p>If missing, install the <a href="https://CRAN.R-project.org/package=mvtnorm">mvtnorm</a> package from CRAN with the command <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("mvtnorm")</a></code>. Then try the following example, which creates a sample multivariate mixture, and estimates its main mode.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/adrienbrilhault/BRIL">BRIL</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://mvtnorm.R-forge.R-project.org">mvtnorm</a></span><span class="op">)</span>
@@ -139,7 +137,7 @@
 <div id="datasets" class="section level4">
 <h4 class="hasAnchor">
 <a href="#datasets" class="anchor"></a>Datasets</h4>
-<p>The real-world datasets used in the article, consisting of eye-tracking calibrations, are provided in <a href="https://github.com/adrienbrilhault/BRIL/raw/master/data/eyeTrackingCalibrations.Rdata">data/eyeTrackingCalibrations.Rdata</a>. They contain the <code>x</code> and <code>y</code> positions recorded from the eyetracker in each trial, with their corresponding <code>metadata</code>, which includes the following attributes:</p>
+<p>The real-world datasets used in the article, consisting of eye-tracking calibrations, are provided in <a href="https://github.com/adrienbrilhault/BRIL/raw/master/data/eyeTrackingCalibrations.Rdata">data/eyeTrackingCalibrations.Rdata</a>. They contain the <code>x</code> and <code>y</code> positions recorded from the eye-tracker in each trial, with their corresponding <code>metadata</code>, which includes the following attributes:</p>
 <ul>
 <li>
 <code>session</code>: subject name and session identifier</li>
@@ -161,12 +159,12 @@
 <h4 class="hasAnchor">
 <a href="#illustrative-notebooks" class="anchor"></a>Illustrative notebooks</h4>
 <ul>
-<li>For a demontration of BRIL algorithm on artificial data, please refer to the notebook <a href="demo_ArtificialData.html">demo_ArtificialData</a> <strong><em>(<a href="https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_ArtificialData.ipynb">binder</a>)</em></strong>
+<li>For a demontration on artificial data, please refer to the notebook <a href="demo_ArtificialData.html">demo_ArtificialData</a> <strong>(<a href="https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_ArtificialData.ipynb">binder</a>)</strong>
 </li>
-<li>For a demontration of BRIL algorithm on eye-tracking data, please refer to the notebook <a href="demo_EyeTrackingData.html">demo_EyeTrackingData</a> <strong><em>(<a href="https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_EyeTrackingData.ipynb">binder</a>)</em></strong>
+<li>For a demontration on eye-tracking data, please refer to the notebook <a href="demo_EyeTrackingData.html">demo_EyeTrackingData</a> <strong>(<a href="https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_EyeTrackingData.ipynb">binder</a>)</strong>
 </li>
 </ul>
-<p>To run these notebooks interactively online, follow this link:</p>
+<p>To run these notebooks interactively in JupyterLab, follow this link:</p>
 <p><a href="https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?urlpath=lab"><img src="https://mybinder.org/badge_logo.svg" alt="Binder"></a></p>
 </div>
 </div>

@@ -11,7 +11,7 @@ The BRIL algorithm estimate the main mode through three principal steps:
 
 To browse and test this package in an online RStudio environment, follow the link below: 
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?urlpath=lab)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?urlpath=rstudio)
 
 
 To cite this package, please refer to:
@@ -22,42 +22,37 @@ To cite this package, please refer to:
 
 ### Installation
 
-To install BRIL from this [GitHub repository](https://github.com/adrienbrilhault/BRIL) 
-, add first the [remotes](https://github.com/r-lib/remotes) package if missing.
+To install BRIL from the [GitHub repository](https://github.com/adrienbrilhault/BRIL), add first the [remotes](https://github.com/r-lib/remotes) package if missing.
 
 ```r
 install.packages("remotes")
 ```
 
-Then proceed to the installation of the BRIL package with its dependencies
+Then proceed to the installation of the BRIL package and its dependencies
 using the `install_github` function from 
 [remotes](https://github.com/r-lib/remotes).
 
 ```r
-remotes::install_github("adrienbril/BRIL", subdir = "pkg")
+remotes::install_github("adrienbrilhault/BRIL", subdir = "pkg")
 ```
 <br>
 
 ### Documentation
 
-After loading the package, refer to its documentation directly in the R 
-environment, or, alternatively, consulting the 
-[pdf manual](https://github.com/adrienbrilhault/BRIL/raw/master/pkg/BRIL-manual.pdf).
+The package documentation is available in [BRIL-manual.pdf](https://github.com/adrienbrilhault/BRIL/raw/master/pkg/BRIL-manual.pdf), at [adrienbrilhault.github.io/BRIL/](https://adrienbrilhault.github.io/BRIL/), and directly in the R environment with the `help()` commmands.
 
 ```r
-library(BRIL)
-
-# main documantation page
+# main documentation page
 help(package = "BRIL")
 
 # bril() function help
-?bril()
+?BRIL::bril()
 ```
 <br>
 
 ### Example
 
-If absent, install the [mvtnorm](https://CRAN.R-project.org/package=mvtnorm) 
+If missing, install the [mvtnorm](https://CRAN.R-project.org/package=mvtnorm) 
 package from CRAN with the command `install.packages("mvtnorm")`. Then try the 
 following example, which creates a sample multivariate mixture, and estimates 
 its main mode.  
@@ -88,7 +83,7 @@ This repository, beyond the R package itself (in the folder [pkg](https://github
 
 The real-world datasets used in the article, consisting of eye-tracking 
 calibrations, are provided in [data/eyeTrackingCalibrations.Rdata](https://github.com/adrienbrilhault/BRIL/raw/master/data/eyeTrackingCalibrations.Rdata).
-They contain the `x` and `y` positions recorded from the eyetracker in each trial,
+They contain the `x` and `y` positions recorded from the eye-tracker in each trial,
 with their corresponding `metadata`, which includes the following attributes:
 
 - `session`: subject name and session identifier
@@ -107,13 +102,13 @@ low, medium, and high contamination) correspond to the sessions *juj011a00*,
 
 #### Illustrative notebooks
 
- - For a demontration of BRIL algorithm on artificial data, please refer to the 
-notebook [demo_ArtificialData.ipynb](demo_ArtificialData.ipynb) ***([binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_ArtificialData.ipynb))***
- - For a demontration of BRIL algorithm on eye-tracking data, please refer to the
-notebook [demo_EyeTrackingData.ipynb](demo_EyeTrackingData.ipynb) ***([binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_EyeTrackingData.ipynb ))***
+ - For a demontration on artificial data, please refer to the 
+notebook [demo_ArtificialData.ipynb](demo_ArtificialData.ipynb) **([binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_ArtificialData.ipynb))**
+ - For a demontration on eye-tracking data, please refer to the
+notebook [demo_EyeTrackingData.ipynb](demo_EyeTrackingData.ipynb) **([binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_EyeTrackingData.ipynb ))**
 
-*(note that the online jupyter viewer from Github sometimes need one or two reload if the notebook was not rendered)*
+*(note that the online viewer from Github sometimes needs one or two reload if the notebook was not rendered)*
 
-To run these notebooks interactively online, follow this link:
+To run these notebooks interactively in JupyterLab, follow this link:
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?urlpath=lab)

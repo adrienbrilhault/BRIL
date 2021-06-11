@@ -1,7 +1,7 @@
 # BRIL
 
 
-[BRIL](https://github.com/adrienbril/BRIL) (Bootstrap and Refine Iterative Locator) is an [R](https://www.r-project.org) package for robust mode estimate in multivariate distributions. 
+[BRIL](https://github.com/adrienbrilhault/BRIL) (Bootstrap and Refine Iterative Locator) is an [R](https://www.r-project.org) package for robust mode estimate in multivariate distributions. 
 
 The BRIL algorithm estimate the main mode through three principal steps: 
 
@@ -42,7 +42,7 @@ remotes::install_github("adrienbril/BRIL", subdir = "pkg")
 
 After loading the package, refer to its documentation directly in the R 
 environment, or, alternatively, consulting the 
-[pdf manual](/pkg/BRIL-manual.pdf). 
+[pdf manual](https://github.com/adrienbrilhault/BRIL/raw/master/pkg/BRIL-manual.pdf).
 
 ```r
 library(BRIL)
@@ -82,13 +82,12 @@ plot(res)
 
 ### Complementary code and data
 
-This repository, beyond the R package itself (in the folder [pkg](/pkg/)), provides 
-the datasets et complementary materials related to the article *"Brilhault A, Neuenschwander S, Rios R - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - 2021"*
+This repository, beyond the R package itself (in the folder [pkg](https://github.com/adrienbrilhault/BRIL/blob/master/pkg)), provides the datasets et complementary materials related to the article *"Brilhault A, Neuenschwander S, Rios R - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - 2021"*
 
 #### Datasets
 
 The real-world datasets used in the article, consisting of eye-tracking 
-calibrations, are provided in [data/eyeTrackingCalibrations.Rdata](data/eyeTrackingCalibrations.Rdata).
+calibrations, are provided in [data/eyeTrackingCalibrations.Rdata](https://github.com/adrienbrilhault/BRIL/raw/master/data/eyeTrackingCalibrations.Rdata).
 They contain the `x` and `y` positions recorded from the eyetracker in each trial,
 with their corresponding `metadata`, which includes the following attributes:
 
@@ -109,12 +108,12 @@ low, medium, and high contamination) correspond to the sessions *juj011a00*,
 #### Illustrative notebooks
 
  - For a demontration of BRIL algorithm on artificial data, please refer to the 
-notebook [demo_ArtificialData.ipynb](demo_EyeTrackingData.ipynb) ***([binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_EyeTrackingData.ipynb))***
+notebook [demo_ArtificialData.ipynb](demo_ArtificialData.ipynb) ***([binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_ArtificialData.ipynb))***
  - For a demontration of BRIL algorithm on eye-tracking data, please refer to the
-notebook [demo_EyeTrackingData.ipynb](demo_EyeTrackingData.ipynb) ***([binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_ArtificialData.ipynb ))***
+notebook [demo_EyeTrackingData.ipynb](demo_EyeTrackingData.ipynb) ***([binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_EyeTrackingData.ipynb ))***
 
 *(note that the online jupyter viewer from Github sometimes need one or two reload if the notebook was not rendered)*
 
-To run these notebook interactively online, follow this link: 
+To run these notebooks interactively online, follow this link:
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?urlpath=lab)

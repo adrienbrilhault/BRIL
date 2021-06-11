@@ -1,17 +1,29 @@
 # BRIL
 
 
-[BRIL](https://github.com/adrienbril/BRIL) (Bootstrap and Refine Iterative Locator) is an [R](https://www.r-project.org) 
-package for robust mode estimate in multivariate distributions. To cite this 
-package, please refer to:
+[BRIL](https://github.com/adrienbril/BRIL) (Bootstrap and Refine Iterative Locator) is an [R](https://www.r-project.org) package for robust mode estimate in multivariate distributions. 
+
+The BRIL algorithm estimate the main mode through three principal steps: 
+
+- *BOOTSTRAP:* a recursive depth triming (or recusive convex body minimizers) to locate a first estimate.
+- *REFINE:* a two-pass outliers filtering, the first relying on euclidian distance to the first estimate and unimodality tests, the second on robust distances and multinormality tests.
+- *ITERATE:* removing the samples selected in the REFINE step from the global distribution, the same process is reapplied, the final mode corresponding to the iteration with the largest number of samples.
+
+To browse and test this package in an online RStudio environment, follow the link below: 
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?urlpath=lab)
+
+
+To cite this package, please refer to:
 
 *Adrien Brilhault, Sergio Neuenschwander, and Ricardo Rios - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - Behavior Research Methods, 2021 (submitted)*
 <br><br>
 
+
 ### Installation
 
 To install BRIL from this [GitHub repository](https://github.com/adrienbrilhault/BRIL) 
-, add first the [remotes](https://github.com/r-lib/remotes) package if absent.
+, add first the [remotes](https://github.com/r-lib/remotes) package if missing.
 
 ```r
 install.packages("remotes")
@@ -43,7 +55,7 @@ help(package = "BRIL")
 ```
 <br>
 
-### Example use
+### Example
 
 If absent, install the [mvtnorm](https://CRAN.R-project.org/package=mvtnorm) 
 package from CRAN with the command `install.packages("mvtnorm")`. Then try the 
@@ -71,7 +83,7 @@ plot(res)
 ### Complementary code and data
 
 This repository, beyond the R package itself (in the folder [pkg](/pkg/)), provides 
-additional datasets et complementary materials related to the article *"Brilhault A, Neuenschwander S, Rios R - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - 2021"*
+the datasets et complementary materials related to the article *"Brilhault A, Neuenschwander S, Rios R - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - 2021"*
 
 #### Datasets
 
@@ -97,10 +109,12 @@ low, medium, and high contamination) correspond to the sessions *juj011a00*,
 #### Illustrative notebooks
 
  - For a demontration of BRIL algorithm on artificial data, please refer to the 
-notebook [demo_ArtificialData.ipynb](demo_EyeTrackingData.ipynb)
+notebook [demo_ArtificialData.ipynb](demo_EyeTrackingData.ipynb) ***([binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_EyeTrackingData.ipynb))***
  - For a demontration of BRIL algorithm on eye-tracking data, please refer to the
-notebook [demo_EyeTrackingData.ipynb](demo_EyeTrackingData.ipynb)
+notebook [demo_EyeTrackingData.ipynb](demo_EyeTrackingData.ipynb) ***([binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_ArtificialData.ipynb ))***
+
+*(note that the online jupyter viewer from Github sometimes need one or two reload if the notebook was not rendered)*
 
 To run these notebook interactively online, follow this link: 
 
-*(note that the online jupyter viewer from Github sometimes need one or two reload if the notebook was not rendered)*
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?urlpath=lab)

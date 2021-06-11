@@ -1,0 +1,39 @@
+Package: BRIL
+Title: Bootstrap and Refine Iterative Locator
+Date: 2021-05-19
+Version: 1.0.0
+Author: Adrien Brilhault [aut, cre] (<https://orcid.org/0000-0002-8135-2715>),
+Maintainer: Adrien Brilhault <adrien.brilhault@gmail.com>
+Description: The BRIL algorithm estimate the main mode of bivariate distribuitions through three principal steps: 
+    BOOTSTRAP: a recursive depth triming (or recusive convex body minimizers) to locate a first estimate.
+    REFINE: a two-pass outliers filtering, the first relying on euclidian distance to the first estimate and unimodality tests, the second on robust distances and multinormality tests.
+    ITERATE: removing the samples selected in the REFINE step from the global distribution, the same process is reapplied, the final mode corresponding to the iteration with the largest number of samples.
+Depends: 
+    R (>= 3.5.0)
+Imports:
+	ddalpha,
+	depth,
+	OjaNP,
+	MASS,
+	diptest,
+	robustbase,
+	stats,
+	utils,
+	nortest,
+	ICS,
+	graphics,
+	grDevices
+Suggests:
+  mvtnorm
+License: GPL-3 | file LICENSE
+URL: https://github.com/adrienbrilhault/BRIL
+BugReports: https://github.com/adrienbrilhault/BRIL/issues
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Authors@R: 
+    person(given = "Adrien",
+           family = "Brilhault",
+           role = c("aut", "cre"),
+           email = "adrien.brilhault@gmail.com")

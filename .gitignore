@@ -1,0 +1,10 @@
+data-raw/
+.Rproj.user
+.Rhistory
+.Ruserdata
+/*.RData
+/*.Rdata
+/*.Rda
+*.Rproj
+*RCheck
+*.tar.gz

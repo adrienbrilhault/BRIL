@@ -1,1 +1,1 @@
-Rscript -e "remotes::install_github('adrienbril/BRIL', subdir = 'pkg')"
+Rscript -e "remotes::install_github('adrienbrilhault/BRIL', subdir = 'pkg')"

@@ -10,7 +10,7 @@ package, please refer to:
 
 ### Installation
 
-To install BRIL from this [GitHub repository](https://github.com/adrienbril/BRIL) 
+To install BRIL from this [GitHub repository](https://github.com/adrienbrilhault/BRIL) 
 , add first the [remotes](https://github.com/r-lib/remotes) package if absent.
 
 ```r

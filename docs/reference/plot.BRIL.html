@@ -12,8 +12,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -37,6 +37,12 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 
 <meta property="og:title" content="Plot method for BRIL objects — plot.BRIL" />
@@ -55,6 +61,16 @@
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-200250973-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-200250973-2');
+</script>
+
 
   </head>
 
@@ -72,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BRIL</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -80,12 +96,30 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Notebooks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/demo_ArtificialData.html">Demo Artificial Data</a>
+    </li>
+    <li>
+      <a href="../articles/demo_EyeTrackingData.html">Demo Eye-tracking Data</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -96,6 +130,12 @@
   </a>
 </li>
       </ul>
+      
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
       
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -145,44 +185,43 @@ or "iterations" (only one option possible)</p></td>
     </tr>
     <tr>
       <th>showClusters</th>
-      <td><p>Logical value. Used with contents="scatterplot", to show
-or not the different clusters</p></td>
+      <td><p>Logical value used when <code>contents = "scatterplot"</code>, to
+show or not the different clusters</p></td>
     </tr>
     <tr>
       <th>showMode</th>
-      <td><p>Logical value. Used for contents="clusters", to show or not
-the main mode to show or not the different clusters</p></td>
+      <td><p>Logical value used when <code>contents = "scatterplot"</code>, to show
+or not the main mode</p></td>
     </tr>
     <tr>
       <th>col</th>
-      <td><p>default color of samples</p></td>
+      <td><p>Default color of samples</p></td>
     </tr>
     <tr>
       <th>colMode</th>
-      <td><p>Color of the mode when contents="scatterplot" (if showMode
-is TRUE)</p></td>
+      <td><p>Color of the mode when <code>contents = "scatterplot"</code></p></td>
     </tr>
     <tr>
       <th>colClusters</th>
-      <td><p>List (or array) of colors (length must be at least equal
-to the number of clusters identified by the function <code><a href='bril.html'>bril()</a></code>, i.e.
-`x$nbClusters)</p></td>
+      <td><p>List (or array) of colors for each of the
+clusters/iterations (length must be at least equal to the number of
+groups identified by the function <code><a href='bril.html'>bril()</a></code>, i.e. <code>x$nbClusters</code>)</p></td>
     </tr>
     <tr>
       <th>iterationsIndices</th>
       <td><p>Numerical value or array of numerical values, used
-with contents="iterations", providing the indices of the iterations to be
-ploted. If more than one iteration is requested, an interactive menu in the
-console will be used for the selection. 0 or NULL (default) will include
-all the iterations. Values that are negative or superior to the number of
-iterations performed by the execution <code><a href='bril.html'>bril()</a></code> will be ignored</p></td>
+when <code>contents = "iterations"</code>, which provides the indices of the
+iterations to be plotted. If more than one iteration is requested, an
+interactive menu in the console will be used for the selection. 0 or NULL
+(default) will include all the iterations. Values that are negative or
+superior to the number of iterations performed by the execution <code><a href='bril.html'>bril()</a></code>
+will be ignored</p></td>
     </tr>
     <tr>
       <th>iterationsOptions</th>
       <td><p>List of additional parameters to be passed to the
-<code>plot.BRIL.Filtering</code> function when contents="iterations" is selected (see
-<a href='plot.BRIL.Filtering.html'>plot.BRIL.Filtering</a> for details). <em>Example: iterationsOptions =
-list(Xlab=NA, Ylab=NA, contents=c("p.values", "scatterplot"))</em></p></td>
+<code><a href='plot.BRIL.Filtering.html'>plot.BRIL.Filtering()</a></code> function when <code>contents = "iterations"</code> is selected
+(see <code><a href='plot.BRIL.Filtering.html'>plot.BRIL.Filtering()</a></code> for details). Example: <code>iterationsOptions = list(xlab = NA, ylab = NA, contents = c("p.values", "scatterplot"), asp = 1)</code></p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -193,8 +232,55 @@ the symbols, main and sub for title and subtitle, xlab, xmin, ...)</p></td>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='bril.html'>bril()</a></code>, <a href='print.BRIL.html'>print.BRIL</a>, <code><a href='filter_outliers.html'>filter_outliers()</a></code>, <code><a href='print.BRIL.Filtering.html'>print.BRIL.Filtering()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='bril.html'>bril()</a></code>, <code><a href='print.BRIL.html'>print.BRIL()</a></code>, <code><a href='filter_outliers.html'>filter_outliers()</a></code>,
+<code><a href='print.BRIL.Filtering.html'>print.BRIL.Filtering()</a></code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='co'># Create a sample distribution and run bril() function</span>
+<span class='va'>XY</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span>
+  <span class='fu'>mvtnorm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html'>rmvnorm</a></span><span class='op'>(</span><span class='fl'>300</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>3</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span>,
+  <span class='fu'>mvtnorm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html'>rmvnorm</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>15</span>, <span class='fl'>20</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='fu'>mvtnorm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html'>rmvnorm</a></span><span class='op'>(</span><span class='fl'>150</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>10</span>, <span class='fl'>15</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>2</span> <span class='op'>-</span> <span class='fl'>0.5</span><span class='op'>)</span>,
+  <span class='fu'>mvtnorm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html'>rmvnorm</a></span><span class='op'>(</span><span class='fl'>200</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>5</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>200</span><span class='op'>)</span>
+<span class='op'>)</span>
+<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='bril.html'>bril</a></span><span class='op'>(</span><span class='va'>XY</span>, debug <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+
+<span class='co'># Plot the mode and groups encountered (default)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
+</div><div class='img'><img src='plot.BRIL-1.svg' alt='' width='701' height='701' /></div><div class='input'>
+<span class='co'># Plot the mode only</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res</span>, showClusters <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='img'><img src='plot.BRIL-2.svg' alt='' width='701' height='701' /></div><div class='input'>
+<span class='co'># Plot the mode only (with extra graphic options)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res</span>, showClusters <span class='op'>=</span> <span class='cn'>FALSE</span>, main <span class='op'>=</span> <span class='st'>"Multivariate Mode Estimate"</span>,
+     col <span class='op'>=</span> <span class='st'>"blue"</span>, colMode <span class='op'>=</span> <span class='st'>"black"</span>, asp <span class='op'>=</span> <span class='fl'>1</span>, pch <span class='op'>=</span> <span class='fl'>3</span> <span class='op'>)</span>
+</div><div class='img'><img src='plot.BRIL-3.svg' alt='' width='701' height='701' /></div><div class='input'>
+<span class='co'># Plot the clusters without the mode</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res</span>, showMode <span class='op'>=</span> <span class='cn'>FALSE</span>, col <span class='op'>=</span> <span class='st'>"gray"</span>,
+     colClusters <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"yellow"</span>,<span class='st'>"cyan"</span>,<span class='st'>"purple"</span>,<span class='st'>"red"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='plot.BRIL-4.svg' alt='' width='701' height='701' /></div><div class='input'>
+<span class='co'># Plot the second iteration</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res</span>, contents <span class='op'>=</span> <span class='st'>"iteration"</span>, iterationsIndices <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
+</div><div class='img'><img src='plot.BRIL-5.svg' alt='' width='701' height='701' /></div><div class='img'><img src='plot.BRIL-6.svg' alt='' width='701' height='701' /></div><div class='input'>
+<span class='co'># Plot the second iteration (with arguments to plot.BRIL.filtering())</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res</span>, contents <span class='op'>=</span> <span class='st'>"iteration"</span>, iterationsIndices <span class='op'>=</span> <span class='fl'>2</span>,
+     iterationsOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+       contents <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"scatterplot"</span>, <span class='st'>"p.values"</span><span class='op'>)</span>,
+       colSelection <span class='op'>=</span> <span class='st'>"blue"</span>, mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>1</span><span class='op'>)</span>, asp <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='plot.BRIL-7.svg' alt='' width='701' height='701' /></div><div class='img'><img src='plot.BRIL-8.svg' alt='' width='701' height='701' /></div><div class='input'>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'># Plot all iterations (interactive mode)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res</span>, contents <span class='op'>=</span> <span class='st'>"iterations"</span><span class='op'>)</span>
+
+<span class='co'># Plot the 3 first iterations with options (interactive mode)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res</span>, contents <span class='op'>=</span> <span class='st'>"iterations"</span>, iterationsIndices <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>)</span>,
+     iterationsOptions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+       contents <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"scatterplot"</span><span class='op'>)</span>,
+       xlim  <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>50</span>,<span class='fl'>50</span><span class='op'>)</span>,  ylim  <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>30</span>,<span class='fl'>30</span><span class='op'>)</span>, asp <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -206,7 +292,7 @@ the symbols, main and sub for title and subtitle, xlab, xmin, ...)</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Adrien Brilhault.</p>
+  <p>Developed by <a href='https://www.linkedin.com/in/adrienbrilhault/'>Adrien Brilhault</a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -217,6 +303,23 @@ the symbols, main and sub for title and subtitle, xlab, xmin, ...)</p></td>
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '4dc1937e97dc79698b3bbb06638278be',
+    indexName: 'adrienbrilhault',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
 
   </body>

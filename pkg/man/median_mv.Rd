@@ -16,8 +16,8 @@ row, with two columns for X and Y coordinates)}
 \item{sampleMedian}{Logical value. If \code{TRUE} (default), the function will
 return the Sample Median (observation from \code{data} with the highest depth).
 If \code{FALSE}, it will return the classic Multivariate Median (point in space
-with the highest depth) when applicable (methods "Oja", "Turkey" and
-"Spatial").}
+with the highest depth), when applicable (methods "Oja", "Turkey" and
+"Spatial")}
 
 \item{warnings}{Logical value, to display the warnings and error caught by
 the underlying functions}
@@ -28,36 +28,35 @@ Coordinates of the Multivariate Median
 \description{
 Computes the Multivariate Median of the distribution provided in \code{data}
 (depth computations rely on the packages
-\href{https://cran.r-project.org/web/packages/depth/index.html}{\code{depth}},
-\href{https://cran.r-project.org/web/packages/OjaNP/index.html}{\code{OjaNP}} and
-\href{https://cran.r-project.org/web/packages/ddalpha/index.html}{\code{ddalpha}},
-while "MCD" and "MVE" use the package
-\href{https://cran.r-project.org/web/packages/MASS/index.html}{\code{MASS}}).
+\href{https://CRAN.R-project.org/package=depth}{\code{depth}},
+\href{https://CRAN.R-project.org/package=OjaNP}{\code{OjaNP}} and
+\href{https://CRAN.R-project.org/package=ddalpha}{\code{ddalpha}},
+while convex body minizers "MCD" and "MVE" use the package
+\href{https://CRAN.R-project.org/package=MASS}{\code{MASS}}).
 }
 \examples{
 
-## Example 1
-
-# illustrative data
+# Illustrative data
 XY <- rbind(
-  mvtnorm::rmvnorm(300, c(0, 0), diag(2)),
+  mvtnorm::rmvnorm(200, c(0, 0), diag(2)),
   mvtnorm::rmvnorm(100, c(15, 20), diag(2) * 3 - 1),
   mvtnorm::rmvnorm(150, c(-10, 15), diag(2) * 2 - 0.5),
-  mvtnorm::rmvnorm(200, c(5, 5), diag(2) * 200)
+  mvtnorm::rmvnorm(100, c(5, 5), diag(2) * 200)
 )
 
-# compute median
-m <- median_mv(XY, method = "Liu")
+# Compute median
+m <- median_mv(XY, method = "L2", warnings = TRUE)
 
-# plot results
+# Plot results
 plot(XY, asp = 1, xlab = "X", ylab = "Y")
-graphics::points(points(m[1], m[2], col = "red", pch = 3, cex = 1.5, lwd = 3))
+points(m[1], m[2], col = "red", pch = 3, cex = 1.5, lwd = 3)
 
-## Example 2
-
-median_mv(XY, method = "L2")
+## Others examples of medians
+\dontrun{
+median_mv(XY, method = "Oja")
 median_mv(XY, method = "Tukey", sampleMedian = TRUE)
 median_mv(XY, method = "Tukey", sampleMedian = FALSE)
+}
 
 }
 \seealso{

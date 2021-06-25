@@ -3,11 +3,11 @@
 #'
 #' Computes the Multivariate Median of the distribution provided in `data`
 #' (depth computations rely on the packages
-#' \href{https://cran.r-project.org/web/packages/depth/index.html}{`depth`},
-#' \href{https://cran.r-project.org/web/packages/OjaNP/index.html}{`OjaNP`} and
-#' \href{https://cran.r-project.org/web/packages/ddalpha/index.html}{`ddalpha`},
-#' while "MCD" and "MVE" use the package
-#' \href{https://cran.r-project.org/web/packages/MASS/index.html}{`MASS`}).
+#' \href{https://CRAN.R-project.org/package=depth}{`depth`},
+#' \href{https://CRAN.R-project.org/package=OjaNP}{`OjaNP`} and
+#' \href{https://CRAN.R-project.org/package=ddalpha}{`ddalpha`},
+#' while convex body minizers "MCD" and "MVE" use the package
+#' \href{https://CRAN.R-project.org/package=MASS}{`MASS`}).
 #'
 #' @param data Matrix of numerical values containing the observations (one per
 #'   row, with two columns for X and Y coordinates)
@@ -16,8 +16,8 @@
 #' @param sampleMedian Logical value. If `TRUE` (default), the function will
 #'   return the Sample Median (observation from `data` with the highest depth).
 #'   If `FALSE`, it will return the classic Multivariate Median (point in space
-#'   with the highest depth) when applicable (methods "Oja", "Turkey" and
-#'   "Spatial").
+#'   with the highest depth), when applicable (methods "Oja", "Turkey" and
+#'   "Spatial")
 #' @param warnings Logical value, to display the warnings and error caught by
 #'   the underlying functions
 #'
@@ -27,28 +27,27 @@
 #'
 #' @examples
 #'
-#' ## Example 1
-#'
-#' # illustrative data
+#' # Illustrative data
 #' XY <- rbind(
-#'   mvtnorm::rmvnorm(300, c(0, 0), diag(2)),
+#'   mvtnorm::rmvnorm(200, c(0, 0), diag(2)),
 #'   mvtnorm::rmvnorm(100, c(15, 20), diag(2) * 3 - 1),
 #'   mvtnorm::rmvnorm(150, c(-10, 15), diag(2) * 2 - 0.5),
-#'   mvtnorm::rmvnorm(200, c(5, 5), diag(2) * 200)
+#'   mvtnorm::rmvnorm(100, c(5, 5), diag(2) * 200)
 #' )
 #'
-#' # compute median
-#' m <- median_mv(XY, method = "Liu")
+#' # Compute median
+#' m <- median_mv(XY, method = "L2", warnings = TRUE)
 #'
-#' # plot results
+#' # Plot results
 #' plot(XY, asp = 1, xlab = "X", ylab = "Y")
-#' graphics::points(points(m[1], m[2], col = "red", pch = 3, cex = 1.5, lwd = 3))
+#' points(m[1], m[2], col = "red", pch = 3, cex = 1.5, lwd = 3)
 #'
-#' ## Example 2
-#'
-#' median_mv(XY, method = "L2")
+#' ## Others examples of medians
+#' \dontrun{
+#' median_mv(XY, method = "Oja")
 #' median_mv(XY, method = "Tukey", sampleMedian = TRUE)
 #' median_mv(XY, method = "Tukey", sampleMedian = FALSE)
+#' }
 #'
 #' @export
 #'
@@ -96,74 +95,74 @@ median_mv <- function(data, method = "Projection", sampleMedian = TRUE, warnings
   }
 
   # Compute the median
-  robustScatter <- withCallingHandlers(
-    withRestarts(
-      {
-        if (method %in% c("MCD", "MVE")) {
-          robustScatter <- MASS::cov.rob(data,
-            cor = FALSE,
-            max(minSampleSize, floor(nrow(data) * (1 - alpha))),
-            tolower(method), nsamp = methodNsamp
-          )
+  result <- withCallingHandlers(
+    withRestarts({
+      if (method %in% c("MCD", "MVE")) {
+        robustScatter <- MASS::cov.rob(data,
+                                       cor = FALSE,
+                                       max(minSampleSize, floor(nrow(data) * (1 - alpha))),
+                                       tolower(method), nsamp = methodNsamp
+        )
 
-          if (!exists("robustScatter") || !("center" %in% names(robustScatter)) || anyNA(robustScatter$center)) {
-            median <- NULL
-          } else {
-            median <- robustScatter$center
-          }
-        } else if (method %in% c("CW")) {
-          median <- c(median(data[, 1]), median(data[, 2]))
-        } else if (method == "Oja") {
-          if (sampleMedian) {
-            median <- OjaNP::ojaMedian(data, alg = "evolutionary")
-          } else {
-            depths <- depth_values(data, method = method, warnings = warnings)
-            if (all(depths == 0)) {
-              median <- c(stats::median(data[, 1]), stats::median(data[, 2]))
-            } else {
-              median <- data[which.max(depths), ]
-            }
-          }
-        } else if (method == "Tukey") {
-          if (sampleMedian) {
-            median <- depth::med(data, method = method, approx = TRUE)$median
-          } else {
-            depths <- depth_values(data, method = method, warnings = warnings)
-            if (all(depths == 0)) {
-              median <- c(stats::median(data[, 1]), stats::median(data[, 2]))
-            } else {
-              median <- data[which.max(depths), ]
-            }
-          }
-        } else if (method %in% c("Liu", "Spatial")) {
-          if (sampleMedian) {
-            median <- depth::med(data, method = method)$median
-          } else {
-            depths <- depth_values(data, method = method, warnings = warnings)
-            if (all(depths == 0)) {
-              median <- c(stats::median(data[, 1]), stats::median(data[, 2]))
-            } else {
-              median <- data[which.max(depths), ]
-            }
-          }
-
-          # Only sample medians for the methods below
+        if (!exists("robustScatter") || !("center" %in% names(robustScatter)) || anyNA(robustScatter$center)) {
+          result <- NULL
+        } else {
+          result <- robustScatter$center
+        }
+      } else if (method %in% c("CW")) {
+        result <- c(stats::median(data[, 1]), stats::median(data[, 2]))
+      } else if (method == "Oja") {
+        if (sampleMedian) {
+          result <- OjaNP::ojaMedian(data, alg = "evolutionary")
         } else {
           depths <- depth_values(data, method = method, warnings = warnings)
           if (all(depths == 0)) {
-            median <- c(stats::median(data[, 1]), stats::median(data[, 2]))
+            result <- c(stats::median(data[, 1]), stats::median(data[, 2]))
           } else {
-            median <- data[which.max(depths), ]
+            result <- data[which.max(depths), ]
           }
         }
-      },
-      muffleError = function() NULL
+      } else if (method == "Tukey") {
+        if (sampleMedian) {
+          result <- depth::med(data, method = method, approx = TRUE)$median
+        } else {
+          depths <- depth_values(data, method = method, warnings = warnings)
+          if (all(depths == 0)) {
+            result <- c(stats::median(data[, 1]), stats::median(data[, 2]))
+          } else {
+            result <- data[which.max(depths), ]
+          }
+        }
+      } else if (method %in% c("Liu", "Spatial")) {
+        if (sampleMedian) {
+          result <- depth::med(data, method = method)$median
+        } else {
+          depths <- depth_values(data, method = method, warnings = warnings)
+          if (all(depths == 0)) {
+            result <- c(stats::median(data[, 1]), stats::median(data[, 2]))
+          } else {
+            result <- data[which.max(depths), ]
+          }
+        }
+
+        # Only sample medians for the methods below
+      } else {
+        depths <- depth_values(data, method = method, warnings = warnings)
+        if (all(depths == 0)) {
+          result <- c(stats::median(data[, 1]), stats::median(data[, 2]))
+        } else {
+          result <- data[which.max(depths), ]
+        }
+      }
+      result
+    },
+    muffleError = function() NULL
     ),
     warning = function(w) {
       if (warnings && !grepl("loss of accuracy", w, fixed = TRUE)) {
         warning("Warning caught in median_mv() with method=\"", method, "\" and ",
-          nrow(data), " samples:\n* ", w,
-          call. = FALSE
+                nrow(data), " samples:\n* ", w,
+                call. = FALSE
         )
       }
       invokeRestart("muffleWarning")
@@ -171,25 +170,24 @@ median_mv <- function(data, method = "Projection", sampleMedian = TRUE, warnings
     error = function(e) {
       if (warnings) {
         warning("Error caught in median_mv() with method=\"", method, "\" and ",
-          nrow(data), " samples:\n* ", e,
-          call. = FALSE
+                nrow(data), " samples:\n* ", e,
+                call. = FALSE
         )
       }
-
       invokeRestart("muffleError")
     }
   )
 
   # Check output
-  if (is.null(median) || length(median) != 2 || anyNA(median) || !is.numeric(median)) {
+  if (is.null(result) || length(result) != 2 || anyNA(result) || !is.numeric(result)) {
     if (warnings) {
       warning("In median_mv() with method=\"", method, "\" and ", nrow(data),
-        " samples: median estimator failed, coordinate-wise median returned instead.",
-        call. = FALSE
+              " samples: median estimator failed, coordinate-wise median returned instead.",
+              call. = FALSE
       )
     }
-    median <- c(stats::median(data[, 1]), stats::median(data[, 2]))
-  } else {
-    return(median)
+    result <- c(stats::median(data[, 1]), stats::median(data[, 2]))
   }
+  return(result)
+
 }

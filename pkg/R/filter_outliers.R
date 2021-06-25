@@ -3,31 +3,31 @@
 #'
 #' @param data Matrix of numerical values containing the observations (one per
 #'   row, with two columns for X and Y coordinates)
-#' @param center Coordinates used to order samples based on their euclidian
-#'   distance (array of numerical values)
-#' @param test Statistical test used. Valid options are "DIP" for unimodality
+#' @param center Coordinates used to computes the distances of the samples and
+#'   order them (array of numerical two values, for X and Y)
+#' @param test Statistical test to use. Valid options are "DIP" for unimodality
 #'   test, or "Mardia", "Kurtosis", "Skewness", "KS", "KS-adj", "Shapiro",
 #'   "Lillie", and "Chisq" for multivariate normality test
-#' @param threshold Threshold of significance for the statistical test (default:
-#'   0.05)
+#' @param threshold Threshold of significance for the statistical test (between
+#'   0 and 1, default: 0.05)
 #' @param distType Distance metric used to order the samples. Valid options are
-#'   "Euclidean", "MCD", "MVE", and "OGK". If empty or null, "Euclidean" will be
+#'   "Euclidean", "MCD", "MVE", and "OGK". If empty or NULL, "Euclidean" will be
 #'   automatically selected for unimodality tests, and "MCD" for normality
-#'   tests.
+#'   tests
 #' @param trimmedPerIteration Number of samples trimmed at each iteration
-#'   (default: 1)
-#' @param debug Logical value. `TRUE` will compute all p.values (even after
-#'   exceeding the threshold, for plotting purpose, see [plot.BRIL.Filtering()])
+#'   (positive integer, default: 1)
+#' @param debug Logical value. `TRUE` will compute all p.values, even after
+#'   exceeding the threshold, for plotting purpose (see [plot.BRIL.Filtering()])
 #' @param warnings Logical value, to display the warnings and errors caught
 #'
 #' @details For unimodality tests parameter `distType` should be set to
 #'   "Euclidean" (as the distribution might contains a large amount of
-#'   outliers). For normality tests robust distances are preferable, based on
+#'   outliers). For normality tests robust distances are preferable, using a
 #'   robust estimate estimates of location and scatter ("MCD","MVE", or "OGK").
 #'
 #' @return The function returns an S3 object of type `BRIL.Filtering`
 #'   containing the following values:
-#'   \item{`call`}{Parameters of the call to the function (i.e. `data`, `test`,
+#'   \item{`call`}{Parameters of the call (contains `data`, `test`,
 #'   `testType`, `center`, `threshold`, `trimmedPerIteration` and `distType`)}
 #'   \item{`distances`}{Distances of each sample from `data` to the `center`
 #'   provided}
@@ -36,14 +36,16 @@
 #'   plotting purpose}
 #'   \item{`selected`}{Indices of the samples from `data` selected at the end of
 #'   the filtering}
-#'   \item{`cutoffDistance`}{Distance of the furthest inlier selected at the end
-#'   of the filtering}
+#'   \item{`cutoffDistance`}{Distance of the furthest inlier selected}
+#'
+#' @seealso [plot.BRIL.Filtering()], [print.BRIL.Filtering()], [bril()],
+#'   [median_rec()], [median_mv()], [depth_values()]
 #'
 #' @examples
 #'
 #' ## Example 1
 #'
-#' # illustrative data
+#' # Illustrative data
 #' XY <- rbind(
 #'   mvtnorm::rmvnorm(300, c(0, 0), diag(2) * 3 - 1),
 #'   mvtnorm::rmvnorm(100, c(15, 20), diag(2)),
@@ -51,29 +53,29 @@
 #'   mvtnorm::rmvnorm(200, c(5, 5), diag(2) * 200)
 #' )
 #'
-#' # compute an estimate for the center
+#' # Compute an estimate for the center
 #' center <- median_rec(XY)$median
 #'
-#' # remove non unimodal outliers from this location
+#' # Remove non unimodal outliers from this location
 #' filtering <- filter_outliers(XY, center, test = "DIP", debug = TRUE)
 #' print(filtering, maxDisplayed = 200)
 #' plot(filtering)
 #'
 #' ## Example 2
 #'
-#' # illustrative data
-#' XY <- rbind(mvtnorm::rmvnorm(300, c(0, 0), diag(2)*4-1.5),
-#'             mvtnorm::rmvnorm(150, c(5, 5), diag(2)*400))
+#' # Illustrative data
+#' XY <- rbind(
+#'   mvtnorm::rmvnorm(300, c(0, 0), diag(2) * 4 - 1.5),
+#'   mvtnorm::rmvnorm(150, c(5, 5), diag(2) * 400)
+#' )
 #'
-#' # compute an estimate for the center
+#' # Compute an estimate for the center
 #' center <- median_rec(XY)$median
 #'
-#' # remove non normal outliers from this location
+#' # Remove non normal outliers from this location
 #' filtering <- filter_outliers(XY, center, test = "Chisq", distType = "MVE", debug = TRUE)
 #' print(filtering)
 #' plot(filtering, asp = 1)
-#'
-#' @seealso [plot.BRIL.Filtering()], [print.BRIL.Filtering()], [median_rec()], [median_mv()], [bril()]
 #'
 #' @export
 #'
@@ -86,7 +88,8 @@ filter_outliers <- function(data, center, test = "Mardia", threshold = 0.05, dis
   }
   if (is.data.frame(data)) {
     data <- as.matrix(data)
-  } # convert from dataframe to matrix
+  }
+  # convert from dataframe to matrix
   if (!is.numeric(data)) {
     stop("Parameter `data` must contain numerical values only")
   }
@@ -177,40 +180,39 @@ filter_outliers <- function(data, center, test = "Mardia", threshold = 0.05, dis
   # Compute robust distances
   if (distType != "Euclidean") {
     distances <- withCallingHandlers(
-      withRestarts(
-        {
-          if (toupper(distType) == "MCD") {
-            robustScatter <- robustbase::covMcd(data, tolSolve = 1e-20)
-          } else if (toupper(distType) == "OGK") {
-            # other sigmamu : s_mad, s_IQR, s_Sn, s_Qn
-            robustScatter <- robustbase::covOGK(data, sigmamu = robustbase::scaleTau2)
-          } else if (toupper(distType) == "MVE") {
-            robustScatter <- MASS::cov.mve(data)
-          }
+      withRestarts({
+        if (toupper(distType) == "MCD") {
+          robustScatter <- robustbase::covMcd(data, tolSolve = 1e-20)
+        } else if (toupper(distType) == "OGK") {
+          # other sigmamu : s_mad, s_IQR, s_Sn, s_Qn
+          robustScatter <- robustbase::covOGK(data, sigmamu = robustbase::scaleTau2)
+        } else if (toupper(distType) == "MVE") {
+          robustScatter <- MASS::cov.mve(data)
+        }
 
-          # Check values are correct if it restarts from a warning
-          if (!exists("robustScatter") || !("cov" %in% names(robustScatter)) ||
+        # Check values are correct if it restarts from a warning
+        if (!exists("robustScatter") || !("cov" %in% names(robustScatter)) ||
             is.null(robustScatter$cov) || all(robustScatter$cov == 0)) {
-            distances <- NULL
-            if (warnings) {
-              warning("In filter_outliers() with test=\"", test, "\" and ", nrow(data),
-                " samples: robust distances could not be computed by \"", distType,
-                "\", reverting to euclidean distances",
-                call. = FALSE
-              )
-            }
-          } else {
-            distances <- sqrt(stats::mahalanobis(data, center, robustScatter$cov))
+          distances <- NULL
+          if (warnings) {
+            warning("In filter_outliers() with test=\"", test, "\" and ", nrow(data),
+                    " samples: robust distances could not be computed by \"", distType,
+                    "\", reverting to euclidean distances",
+                    call. = FALSE
+            )
           }
-          distances
-        },
-        muffleError = function() NULL
+        } else {
+          distances <- sqrt(stats::mahalanobis(data, center, robustScatter$cov))
+        }
+        distances
+      },
+      muffleError = function() NULL
       ),
       warning = function(w) {
         if (warnings && !grepl("loss of accuracy", w, fixed = TRUE)) {
           warning("Warning caught in filter_outliers() with distType=\"", distType, "\" and ",
-            nrow(data), " samples:\n*  ", w,
-            call. = FALSE
+                  nrow(data), " samples:\n*  ", w,
+                  call. = FALSE
           )
         }
         invokeRestart("muffleWarning")
@@ -218,11 +220,10 @@ filter_outliers <- function(data, center, test = "Mardia", threshold = 0.05, dis
       error = function(e) {
         if (warnings) {
           warning("Error caught in filter_outliers() with distType=\"", distType, "\" and ",
-            nrow(data), " samples:\n*  ", e,
-            call. = FALSE
+                  nrow(data), " samples:\n*  ", e,
+                  call. = FALSE
           )
         }
-
         invokeRestart("muffleError")
       }
     )
@@ -256,15 +257,15 @@ filter_outliers <- function(data, center, test = "Mardia", threshold = 0.05, dis
   while ((length(selected) - trimmedPerIteration > 2) && (is.na(utils::tail(output$p.values, 1)) || utils::tail(output$p.values, 1) < threshold)) {
 
     # remove furthest sample(s)
-    selected <- utils::head(selected, -trimmedPerIteration)
+    selected <- utils::head(selected, - trimmedPerIteration)
 
     # apply test and store p.value with sample index
     if (testType == "Unimodality") {
       output$p.values <- c(output$p.values, test_unimodality(distances[selected], test = test, warnings = warnings))
     } else {
       output$p.values <- c(output$p.values, test_multinormality(distances[selected],
-        test = test, data = data[selected, ],
-        center = center, warnings = warnings
+                                                                test = test, data = data[selected, ],
+                                                                center = center, warnings = warnings
       ))
     }
     output$index.p.values <- c(output$index.p.values, utils::tail(output$index.p.values, 1) - trimmedPerIteration)
@@ -273,15 +274,15 @@ filter_outliers <- function(data, center, test = "Mardia", threshold = 0.05, dis
   output$selected <- selected
   output$cutoffDistance <- distances[utils::tail(selected, 1)]
 
-  # when debugging, compute the p.values for all the samples, even after having reaching normality
+  # when debugging, compute the p.values for all the samples, even after having reached normality
   while (debug && ((length(selected) - trimmedPerIteration)) > 2) {
-    selected <- utils::head(selected, -trimmedPerIteration)
+    selected <- utils::head(selected, - trimmedPerIteration)
     if (testType == "Unimodality") {
       output$p.values <- c(output$p.values, test_unimodality(distances[selected], test = test, warnings = warnings))
     } else {
       output$p.values <- c(output$p.values, test_multinormality(distances[selected],
-        test = test, data = data[selected, ],
-        center = center, warnings = warnings
+                                                                test = test, data = data[selected, ],
+                                                                center = center, warnings = warnings
       ))
     }
     output$index.p.values <- c(output$index.p.values, utils::tail(output$index.p.values, 1) - trimmedPerIteration)
@@ -295,12 +296,14 @@ filter_outliers <- function(data, center, test = "Mardia", threshold = 0.05, dis
 
 #' Test the unimodality of a distribution
 #
-#' @param values Unidimentional array of numerical values (distances)
+#' @param values Unidimensional array of numerical values (distances)
 #' @param test Statistical test used (for now the only option is "DIP")
 #' @param warnings Logical value, to display the warnings and errors caught
 #
 #' @return p-value of the test (lower values suggest multimodality)
-#
+#'
+#' @seealso [filter_outliers()]
+#'
 test_unimodality <- function(values, test = "DIP", warnings = FALSE) {
   opts_test <- c("DIP")
   if (is.character(test) && tolower(test) %in% tolower(opts_test)) {
@@ -311,42 +314,40 @@ test_unimodality <- function(values, test = "DIP", warnings = FALSE) {
 
   # Compute the test statistics
   p.value <- withCallingHandlers(
-    withRestarts(
-      {
-        if (test == "DIP") {
-          p.value <- diptest::dip.test(values)$p.value
-        }
+    withRestarts({
+      if (test == "DIP") {
+        p.value <- diptest::dip.test(values)$p.value
+      }
 
-        # Check values are correct if it restarts from a warning
-        if (!exists("p.value") || is.na(p.value) || is.null(p.value)) {
-          if (warnings) {
-            warning("In unimodality_test() with test=\"", test, "\" and ", length(values),
-              " samples: p.value is NA\n",
-              call. = FALSE
-            )
-          }
-          p.value <- NA
+      # Check values are correct if it restarts from a warning
+      if (!exists("p.value") || is.na(p.value) || is.null(p.value)) {
+        if (warnings) {
+          warning("In unimodality_test() with test=\"", test, "\" and ", length(values),
+                  " samples: p.value is NA\n",
+                  call. = FALSE
+          )
         }
-        p.value
-      },
-      muffleError = function() NA
+        p.value <- NA
+      }
+      p.value
+    },
+    muffleError = function() NA
     ),
     warning = function(w) {
       if (warnings) {
         warning("Warning caught in unimodality_test() with test=\"", test, "\" and ",
-          length(values), " samples:\n*  ", w,
-          call. = FALSE
+                length(values), " samples:\n*  ", w,
+                call. = FALSE
         )
       }
-
       invokeRestart("muffleWarning")
     },
     error = function(e) {
       if (warnings) {
         if (warnings) {
           warning("Error caught in unimodality_test() with test=\"", test, "\" and ",
-            length(values), " samples:\n*  ", e,
-            call. = FALSE
+                  length(values), " samples:\n*  ", e,
+                  call. = FALSE
           )
         }
       }
@@ -361,8 +362,9 @@ test_unimodality <- function(values, test = "DIP", warnings = FALSE) {
 
 #' Test the multivariate normality of a distribution
 #
-#' @param values Unidimentional array of numerical values (distances)
-#' @param test Statistical test used (for now the only option "DIP")
+#' @param values Unidimensional array of numerical values (distances)
+#' @param test Statistical test used, valid options are "Mardia", "Kurtosis",
+#'   "Skewness", "KS", "KS-adj", "Shapiro", "Lillie", and "Chisq"
 #' @param threshold Threshold of significance for the statistical test
 #'   (default: 0.05)
 #' @param data Matrix of numerical values containing the observations (one per
@@ -375,7 +377,9 @@ test_unimodality <- function(values, test = "DIP", warnings = FALSE) {
 #' required for "Chisq"
 #
 #' @return p-value of the test (lower values suggest non normality)
-#
+#'
+#' @seealso [filter_outliers()]
+#'
 test_multinormality <- function(values, test = "Mardia", threshold = 0.05, data, center, warnings = FALSE) {
 
   ######## Check parameters
@@ -402,49 +406,48 @@ test_multinormality <- function(values, test = "Mardia", threshold = 0.05, data,
   ######## Compute p.values for the test
 
   p.value <- withCallingHandlers(
-    withRestarts(
-      {
-        if (test == "Shapiro") {
-          p.value <- stats::shapiro.test(values)$p.value
-        } else if (test == "Lillie") {
-          p.value <- nortest::lillie.test(values)$p.value # adapted KS for unknown variance and expected value
-        } else if (test == "KS-adj") {
-          # adjust the confidence value in function of size n : confKS=1.36 / sqrt(n)
-          p.value <- threshold / (1.36 / sqrt(length(values))) * stats::ks.test(values, "pnorm", mean(values), stats::sd(values))$p.value
-        } else if (test == "KS") {
-          p.value <- stats::ks.test(values, "pnorm", mean(values), stats::sd(values))$p.value
-        } else if (test == "Kurtosis") {
-          p.value <- ICS::mvnorm.kur.test(data, method = "integration")$p.value
-        } else if (test == "Skewness") {
+    withRestarts({
+      if (test == "Shapiro") {
+        p.value <- stats::shapiro.test(values)$p.value
+      } else if (test == "Lillie") {
+        p.value <- nortest::lillie.test(values)$p.value # adapted KS for unknown variance and expected value
+      } else if (test == "KS-adj") {
+        # adjust the confidence value in function of size n : confKS=1.36 / sqrt(n)
+        p.value <- threshold / (1.36 / sqrt(length(values))) * stats::ks.test(values, "pnorm", mean(values), stats::sd(values))$p.value
+      } else if (test == "KS") {
+        p.value <- stats::ks.test(values, "pnorm", mean(values), stats::sd(values))$p.value
+      } else if (test == "Kurtosis") {
+        p.value <- ICS::mvnorm.kur.test(data, method = "integration")$p.value
+      } else if (test == "Skewness") {
+        p.value <- ICS::mvnorm.skew.test(data)$p.value
+      } else if (test == "Chisq") {
+        p.value <- stats::ks.test(stats::mahalanobis(data, center, stats::cov(data), tol = 1e-20), "pchisq", df = 2)$p.value
+      } else if (test == "Mardia") {
+        p.value <- ICS::mvnorm.kur.test(data, method = "integration")$p.value
+        if (p.value > threshold) {
+          # Mardia test rejects the null hypothesis only if both kurtosis and skewness reject them
           p.value <- ICS::mvnorm.skew.test(data)$p.value
-        } else if (test == "Chisq") {
-          p.value <- stats::ks.test(stats::mahalanobis(data, center, stats::cov(data), tol = 1e-20), "pchisq", df = 2)$p.value
-        } else if (test == "Mardia") {
-          p.value <- ICS::mvnorm.kur.test(data, method = "integration")$p.value
-          if (p.value > threshold) {
-            # Mardia test reject the null hypothesis only if both kurtosis and skewness reject them
-            p.value <- ICS::mvnorm.skew.test(data)$p.value
-          }
         }
-        # Check values are correct if it restarts from a warning
-        if (!exists("p.value") || is.na(p.value) || is.null(p.value)) {
-          if (warnings) {
-            warning("In multinormality_test() with test=\"", test, "\" and ", length(values),
-              " samples: p.value is NA\n",
-              call. = FALSE
-            )
-          }
-          p.value <- NA
+      }
+      # Check values are correct if it restarts from a warning
+      if (!exists("p.value") || is.na(p.value) || is.null(p.value)) {
+        if (warnings) {
+          warning("In multinormality_test() with test=\"", test, "\" and ", length(values),
+                  " samples: p.value is NA\n",
+                  call. = FALSE
+          )
         }
-        p.value
-      },
-      muffleError = function() NA
+        p.value <- NA
+      }
+      p.value
+    },
+    muffleError = function() NA
     ),
     warning = function(w) {
       if (warnings && !grepl("loss of accuracy", w, fixed = TRUE)) {
         warning("Warning caught in multinormality_test() with test=\"", test, "\" and ",
-          length(values), " samples:\n*  ", w,
-          call. = FALSE
+                length(values), " samples:\n*  ", w,
+                call. = FALSE
         )
       }
       invokeRestart("muffleWarning")
@@ -452,11 +455,10 @@ test_multinormality <- function(values, test = "Mardia", threshold = 0.05, data,
     error = function(e) {
       if (warnings) {
         warning("Error caught in multinormality_test() with test=\"", test, "\" and ",
-          length(values), " samples:\n*  ", e,
-          call. = FALSE
+                length(values), " samples:\n*  ", e,
+                call. = FALSE
         )
       }
-
       invokeRestart("muffleError")
     }
   )
@@ -471,7 +473,7 @@ test_multinormality <- function(values, test = "Mardia", threshold = 0.05, data,
 #'
 #' @param x An object of class `BRIL.Filtering` (see [filter_outliers()])
 #' @param maxDisplayed Number of elements to display in the output (default:
-#'   500). Set to NULL (or 0) to show all values.
+#'   200). Set to NULL (or 0) to show all values.
 #' @param ... Other arguments passed to or from other methods
 #'
 #' @seealso [filter_outliers()], [plot.BRIL.Filtering()], [bril()]
@@ -517,9 +519,9 @@ print.BRIL.Filtering <- function(x, maxDisplayed = 200, ...) {
   cat("\n\nOutliers cutoff distance from center (", toString(x$call$center), "):\n", sep = "")
   print(x$cutoffDistance, ...)
 
-  cat("\n\n", ifelse(x$call$distType == "Euclidean", "Euclidean", paste(x$call$distType, "-based Robust", sep = "")),
-    "Distances:\n",
-    sep = ""
+  cat("\n\n", ifelse(x$call$distType == "Euclidean", "Euclidean ", paste(x$call$distType, "-based Robust ", sep = "")),
+      "Distances:\n",
+      sep = ""
   )
   print(utils::head(x$distances, maxDisplayed), ...)
   if (length(x$distances) > maxDisplayed) {
@@ -542,15 +544,21 @@ print.BRIL.Filtering <- function(x, maxDisplayed = 200, ...) {
 #'   filtering process
 #' @param col Default color for non-selected samples (default: "black")
 #' @param colSelection Color of the selected samples (default: "red")
-#' @param colCenter Color for center in "scatterplot" (default: "orange")
+#' @param colCenter Color for the center in "scatterplot" (default: "orange")
 #' @param mtextTitles Logical value, `TRUE` to set smaller titles/subtitles on
-#' top, `FALSE` to use the default plot options.
+#' top, `FALSE` to use the default plot title options.
 #' @param mfrow Number of rows and columns of the figure (example:
 #'   c(4,1))
 #' @param ... Other arguments passed to or from other methods (such as pch for
 #'   the symbols, main and sub for title and subtitle, xlab, xmin, ...)
 #'
-#' @details `contents` options:
+#' @details
+#'   \emph{Red intercept lines correspond to the
+#'   selection based on the p.values exceeding the given threshold.} \cr
+#'   \emph{To display all the p.values, rerun the function [filter_outliers()]
+#'   with the parameter `debug = TRUE`} \cr \cr
+#'
+#' `contents` options:
 #'   - \bold{"p.values"} provides a plot of the test p.values (in function of
 #'   the subset size)
 #'   - \bold{"scatterplot"} displays the data in cartesian coordinates. Selected
@@ -562,17 +570,13 @@ print.BRIL.Filtering <- function(x, maxDisplayed = 200, ...) {
 #'   the center provided in [filter_outliers()]
 #'   - \bold{"all"} displays a figure with all of the options above
 #'
-#'   \bold{\emph{Notes:}} \cr \cr
-#'   \emph{Red intercept lines correspond to the
-#'   selection based on the p.values exceeding the given threshold.} \cr
-#'   \emph{To display all the p.values, rerun the function [filter_outliers()]
-#'   with the parameter `debug=TRUE`}
 #
-#' @seealso [filter_outliers()],[print.BRIL.Filtering()]
+#' @seealso [filter_outliers()], [print.BRIL.Filtering()], [bril()],
+#'   [median_rec()], [median_mv()], [depth_values()]
 #'
 #' @examples
 #'
-#' # illustrative data
+#' # Illustrative data
 #' XY <- rbind(
 #'   mvtnorm::rmvnorm(300, c(0, 0), diag(2) * 3 - 1),
 #'   mvtnorm::rmvnorm(100, c(15, 20), diag(2)),
@@ -593,21 +597,26 @@ print.BRIL.Filtering <- function(x, maxDisplayed = 200, ...) {
 #' plot(filtering, contents = c("pvalues", "scatterplot"), mfrow = c(2, 1))
 #'
 #' # Remove title, subtitle, and axis labels
-#' plot(filtering, contents = "scatterplot", main = "", sub = "", ylab = "", xlab = "")
+#' plot(filtering, contents = "scatterplot", main = "", sub = "",
+#'   ylab = "", xlab = "")
 #'
 #' # Other graphical options
-#' plot(filtering, contents = "scatterplot", asp = 1, xlim = c(-30, 30), ylim = c(-30, 30))
-#' plot(filtering, contents = "scatterplot", asp = 1, pch = 4, lwd = 2, col = "blue", colSelection = "green", showCenter = FALSE)
-#' plot(filtering, contents = "hist", main = "My Histogram", showSelection = FALSE, breaks = 50)
+#' plot(filtering, contents = "scatterplot", asp = 1,
+#'   xlim = c(-30, 30), ylim = c(-30, 30))
+#'
+#' plot(filtering,
+#'   contents = "scatterplot", asp = 1, pch = 4, lwd = 2, col = "blue",
+#'   colSelection = "green", showCenter = FALSE
+#' )
+#'
+#' plot(filtering, contents = "hist", main = "My Histogram",
+#'   showSelection = FALSE, breaks = 50)
 #'
 #' @export
-#'
-#' @seealso [filter_outliers()], [median_rec()], [median_mv()], [bril()]
 #'
 plot.BRIL.Filtering <- function(x, contents = c("p.values", "scatterplot", "dist", "hist"), showCenter = TRUE,
                                 showSelection = TRUE, col = "black", colSelection = "red", colCenter = "orange",
                                 mtextTitles = TRUE, mfrow, ...) {
-
   if (class(x) != "BRIL.Filtering") {
     stop("the object provided is not of class \"BRIL.Filtering\"")
   }
@@ -641,12 +650,10 @@ plot.BRIL.Filtering <- function(x, contents = c("p.values", "scatterplot", "dist
 
   # Plot
   while (length(contents) >= 1) {
-
-    if (any(sapply(c("scater", "scatter", "plot"), grepl, contents[1]))) {
-
+    if (any(unlist(lapply(c("scater", "scatter", "plot"), grepl, contents[1])))) {
       title <- ifelse("main" %in% names(otherArgs), list(otherArgs$main), "Samples selected")
       subtitle <- ifelse("sub" %in% names(otherArgs), list(otherArgs$sub),
-        paste0("(", nrow(x$call$data), " samples, ", length(x$selected), " selected)")
+                         paste0("(", nrow(x$call$data), " samples, ", length(x$selected), " selected)")
       )
 
       do.call(plot, utils::modifyList(
@@ -659,14 +666,14 @@ plot.BRIL.Filtering <- function(x, contents = c("p.values", "scatterplot", "dist
 
       if (showSelection == TRUE) {
         selection <- x$call$data[x$selected, ]
-        do.call(graphics::points, utils::modifyList(
+        do.call(points, utils::modifyList(
           list(selection[, 1], selection[, 2], col = colSelection),
           otherArgs[names(otherArgs) %in% c("col") == FALSE]
         ))
       }
       if (showCenter == TRUE) {
-        graphics::points(x$call$center[1], x$call$center[2],
-          col = colCenter, pch = 3, lwd = 2
+        points(x$call$center[1], x$call$center[2],
+                         col = colCenter, pch = 3, lwd = 2
         )
       }
 
@@ -675,11 +682,10 @@ plot.BRIL.Filtering <- function(x, contents = c("p.values", "scatterplot", "dist
         graphics::mtext(side = 3, line = 1, adj = 0, cex = 0.7, subtitle)
       }
     }
-    else if (any(sapply(c("p.val", "pval", "value"), grepl, contents[1]))) {
-
+    else if (any(unlist(lapply(c("p.val", "pval", "value"), grepl, contents[1])))) {
       title <- ifelse("main" %in% names(otherArgs), list(otherArgs$main), paste(x$call$test, "Test"))
       subtitle <- ifelse("sub" %in% names(otherArgs), list(otherArgs$sub),
-        paste0("P.Values for the ", x$call$test, " Test of ", x$call$testType, " (p < ", x$call$threshold, ")")
+                         paste0("P.Values for the ", x$call$test, " Test of ", x$call$testType, " (p < ", x$call$threshold, ")")
       )
 
       do.call(plot, utils::modifyList(
@@ -695,7 +701,7 @@ plot.BRIL.Filtering <- function(x, contents = c("p.values", "scatterplot", "dist
 
       if (showSelection == TRUE) {
         selection <- which(x$index.p.values <= length(x$selected))
-        do.call(graphics::points, utils::modifyList(
+        do.call(points, utils::modifyList(
           list(x$index.p.values[selection], x$p.values[selection], col = colSelection),
           otherArgs[names(otherArgs) %in% c("col") == FALSE]
         ))
@@ -706,18 +712,17 @@ plot.BRIL.Filtering <- function(x, contents = c("p.values", "scatterplot", "dist
         graphics::mtext(side = 3, line = 1, adj = 0, cex = 0.7, subtitle)
       }
     }
-    else if (any(sapply(c("dist"), grepl, contents[1]))) {
-
+    else if (any(unlist(lapply(c("dist"), grepl, contents[1])))) {
       title <- ifelse("main" %in% names(otherArgs), list(otherArgs$main),
-        ifelse(x$call$distType == "Euclidean", "Distances", "Robust Distances")
+                      ifelse(x$call$distType == "Euclidean", "Distances", "Robust Distances")
       )
       subtitle <- ifelse("sub" %in% names(otherArgs), list(otherArgs$sub),
-        paste0(
-          ifelse(x$call$distType == "Euclidean", "Euclidean Distances",
-            paste0(x$call$distType, "-based Robust Distances")
-          ),
-          " to (", toString(sapply(x$call$center, function(x) sprintf("%.2f", x))), ")"
-        )
+                         paste0(
+                           ifelse(x$call$distType == "Euclidean", "Euclidean Distances",
+                                  paste0(x$call$distType, "-based Robust Distances")
+                           ),
+                           " to (", toString(lapply(x$call$center, function(x) sprintf("%.2f", x))), ")"
+                         )
       )
 
       do.call(plot, utils::modifyList(
@@ -742,17 +747,17 @@ plot.BRIL.Filtering <- function(x, contents = c("p.values", "scatterplot", "dist
       }
     }
 
-    else if (any(sapply(c("hist"), grepl, contents[1]))) {
+    else if (any(unlist(lapply(c("hist"), grepl, contents[1])))) {
       title <- ifelse("main" %in% names(otherArgs), list(otherArgs$main),
-        paste0("Histogram of ", ifelse(x$call$distType == "Euclidean", "Distances", "Robust Distances"))
+                      paste0("Histogram of ", ifelse(x$call$distType == "Euclidean", "Distances", "Robust Distances"))
       )
       subtitle <- ifelse("sub" %in% names(otherArgs), list(otherArgs$sub),
-        paste0(
-          "Histogram of ", ifelse(x$call$distType == "Euclidean", "Distances",
-            paste0(x$call$distType, "-based Robust Distances")
-          ),
-          " to (", toString(sapply(x$call$center, function(x) sprintf("%.2f", x))), ")"
-        )
+                         paste0(
+                           "Histogram of ", ifelse(x$call$distType == "Euclidean", "Distances",
+                                                   paste0(x$call$distType, "-based Robust Distances")
+                           ),
+                           " to (", toString(lapply(x$call$center, function(x) sprintf("%.2f", x))), ")"
+                         )
       )
 
       do.call(graphics::hist, utils::modifyList(

@@ -23,32 +23,31 @@
 \item{contents}{Contents to be displayed, options are "scatterplot",
 or "iterations" (only one option possible)}
 
-\item{showClusters}{Logical value. Used with contents="scatterplot", to show
-or not the different clusters}
+\item{showClusters}{Logical value used when \code{contents = "scatterplot"}, to
+show or not the different clusters}
 
-\item{showMode}{Logical value. Used for contents="clusters", to show or not
-the main mode to show or not the different clusters}
+\item{showMode}{Logical value used when \code{contents = "scatterplot"}, to show
+or not the main mode}
 
-\item{col}{default color of samples}
+\item{col}{Default color of samples}
 
-\item{colMode}{Color of the mode when contents="scatterplot" (if showMode
-is TRUE)}
+\item{colMode}{Color of the mode when \code{contents = "scatterplot"}}
 
-\item{colClusters}{List (or array) of colors (length must be at least equal
-to the number of clusters identified by the function \code{\link[=bril]{bril()}}, i.e.
-`x$nbClusters)}
+\item{colClusters}{List (or array) of colors for each of the
+clusters/iterations (length must be at least equal to the number of
+groups identified by the function \code{\link[=bril]{bril()}}, i.e. \code{x$nbClusters})}
 
 \item{iterationsIndices}{Numerical value or array of numerical values, used
-with contents="iterations", providing the indices of the iterations to be
-ploted. If more than one iteration is requested, an interactive menu in the
-console will be used for the selection. 0 or NULL (default) will include
-all the iterations. Values that are negative or superior to the number of
-iterations performed by the execution \code{\link[=bril]{bril()}} will be ignored}
+when \code{contents = "iterations"}, which provides the indices of the
+iterations to be plotted. If more than one iteration is requested, an
+interactive menu in the console will be used for the selection. 0 or NULL
+(default) will include all the iterations. Values that are negative or
+superior to the number of iterations performed by the execution \code{\link[=bril]{bril()}}
+will be ignored}
 
 \item{iterationsOptions}{List of additional parameters to be passed to the
-\code{plot.BRIL.Filtering} function when contents="iterations" is selected (see
-\link{plot.BRIL.Filtering} for details). \emph{Example: iterationsOptions =
-list(Xlab=NA, Ylab=NA, contents=c("p.values", "scatterplot"))}}
+\code{\link[=plot.BRIL.Filtering]{plot.BRIL.Filtering()}} function when \code{contents = "iterations"} is selected
+(see \code{\link[=plot.BRIL.Filtering]{plot.BRIL.Filtering()}} for details). Example: \code{iterationsOptions = list(xlab = NA, ylab = NA, contents = c("p.values", "scatterplot"), asp = 1)}}
 
 \item{...}{Other arguments passed to or from other methods (such as pch for
 the symbols, main and sub for title and subtitle, xlab, xmin, ...)}
@@ -56,6 +55,53 @@ the symbols, main and sub for title and subtitle, xlab, xmin, ...)}
 \description{
 Plot method for \code{BRIL} objects
 }
+\examples{
+
+# Create a sample distribution and run bril() function
+XY <- rbind(
+  mvtnorm::rmvnorm(300, c(0, 0), diag(2) * 3 - 1),
+  mvtnorm::rmvnorm(100, c(15, 20), diag(2)),
+  mvtnorm::rmvnorm(150, c(-10, 15), diag(2) * 2 - 0.5),
+  mvtnorm::rmvnorm(200, c(5, 5), diag(2) * 200)
+)
+res <- bril(XY, debug = TRUE)
+
+# Plot the mode and groups encountered (default)
+plot(res)
+
+# Plot the mode only
+plot(res, showClusters = FALSE)
+
+# Plot the mode only (with extra graphic options)
+plot(res, showClusters = FALSE, main = "Multivariate Mode Estimate",
+     col = "blue", colMode = "black", asp = 1, pch = 3 )
+
+# Plot the clusters without the mode
+plot(res, showMode = FALSE, col = "gray",
+     colClusters = c("yellow","cyan","purple","red"))
+
+# Plot the second iteration
+plot(res, contents = "iteration", iterationsIndices = 2)
+
+# Plot the second iteration (with arguments to plot.BRIL.filtering())
+plot(res, contents = "iteration", iterationsIndices = 2,
+     iterationsOptions = list(
+       contents = c("scatterplot", "p.values"),
+       colSelection = "blue", mfrow = c(2,1), asp = 1))
+
+\dontrun{
+# Plot all iterations (interactive mode)
+plot(res, contents = "iterations")
+
+# Plot the 3 first iterations with options (interactive mode)
+plot(res, contents = "iterations", iterationsIndices = c(1:3),
+     iterationsOptions = list(
+       contents = c("scatterplot"),
+       xlim  = c(-50,50),  ylim  = c(-30,30), asp = 1))
+}
+
+}
 \seealso{
-\code{\link[=bril]{bril()}}, \link{print.BRIL}, \code{\link[=filter_outliers]{filter_outliers()}}, \code{\link[=print.BRIL.Filtering]{print.BRIL.Filtering()}}
+\code{\link[=bril]{bril()}}, \code{\link[=print.BRIL]{print.BRIL()}}, \code{\link[=filter_outliers]{filter_outliers()}},
+\code{\link[=print.BRIL.Filtering]{print.BRIL.Filtering()}}
 }

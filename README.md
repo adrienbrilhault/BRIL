@@ -1,17 +1,21 @@
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/adrienbrilhault/BRIL/workflows/R-CMD-check/badge.svg)](https://github.com/adrienbrilhault/BRIL/actions)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](pkg/LICENSE)
+[![Analytics](https://ga-beacon.appspot.com/UA-200250973-1/Github-Readme?pixel)](https://github.com/igrigorik/ga-beacon)
+<!-- badges: end -->
 # BRIL
 
+[BRIL](https://github.com/adrienbrilhault/BRIL) (Bootstrap and Refine Iterative Locator) is an [R](https://www.r-project.org) package for multivariate mode estimate.
 
-[BRIL](https://github.com/adrienbrilhault/BRIL) (Bootstrap and Refine Iterative Locator) is an [R](https://www.r-project.org) package for robust mode estimate in multivariate distributions. 
+The BRIL algorithm estimate the main mode through three principal steps:
 
-The BRIL algorithm estimate the main mode through three principal steps: 
-
-- *BOOTSTRAP:* a recursive depth triming (or recusive convex body minimizers) to locate a first estimate.
-- *REFINE:* a two-pass outliers filtering, the first relying on euclidian distance to the first estimate and unimodality tests, the second on robust distances and multinormality tests.
-- *ITERATE:* removing the samples selected in the REFINE step from the global distribution, the same process is reapplied, the final mode corresponding to the iteration with the largest number of samples.
+- *BOOTSTRAP:* a recursive depth (or convex body minimizers) trimming to locate a first estimate.
+- *REFINE:* a two-pass outliers filtering, the first relying on euclidean distances to the first estimate and unimodality tests, the second on robust distances and multinormality tests.
+- *ITERATE:* after removing the samples selected in the REFINE step from the global distribution, the same process is reapplied, the first mode corresponding to the iteration with the largest number of samples.
 
 To browse and test this package in an online RStudio environment, follow the link below: 
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?urlpath=rstudio)
+[![Binder](https://tinyurl.com/badgeRStudio)](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?urlpath=rstudio)
 
 
 To cite this package, please refer to:
@@ -39,7 +43,7 @@ remotes::install_github("adrienbrilhault/BRIL", subdir = "pkg")
 
 ### Documentation
 
-The package documentation is available in [BRIL-manual.pdf](https://github.com/adrienbrilhault/BRIL/raw/master/pkg/BRIL-manual.pdf), at [adrienbrilhault.github.io/BRIL/](https://adrienbrilhault.github.io/BRIL/), and directly in the R environment with the `help()` commmands.
+The package documentation is available in [BRIL-manual.pdf](https://github.com/adrienbrilhault/BRIL/raw/master/BRIL-manual.pdf), at [adrienbrilhault.github.io/BRIL/](https://adrienbrilhault.github.io/BRIL/), and directly in the R environment with the help commands.
 
 ```r
 # main documentation page
@@ -52,9 +56,9 @@ help(package = "BRIL")
 
 ### Example
 
-If missing, install the [mvtnorm](https://CRAN.R-project.org/package=mvtnorm) 
-package from CRAN with the command `install.packages("mvtnorm")`. Then try the 
-following example, which creates a sample multivariate mixture, and estimates 
+If missing, install the [mvtnorm](https://CRAN.R-project.org/package=mvtnorm)
+package from CRAN with the command `install.packages("mvtnorm")`. Then try the
+following example, which creates a sample multivariate mixture, and estimates
 its main mode.  
 
 ```r
@@ -90,25 +94,27 @@ with their corresponding `metadata`, which includes the following attributes:
 - `trial`: trial number within the session
 - `nTrials`: total number of trials in the session
 - `duration`: duration of trials in the session (in ms)
-- `target`: calibration target identifier displayed during the trial
+- `target`: id of the calibration target displayed during the trial
 - `nTargets`: number of calibration targets in the session
- 
-The table `goundTruth` finally provide the manually annotated reference 
+
+The table `groundTruth` finally provide the manually annotated reference 
 coordinates for each of the calibration targets in every session.
 
 The three datasets presented in the article as *Set1*, *Set2*, and *Set3* (with 
 low, medium, and high contamination) correspond to the sessions *juj011a00*, 
-*ded00800*, and *ded005a01*, respectivly.
+*ded00800*, and *ded005a01*, respectively.
 
 #### Illustrative notebooks
 
- - For a demontration on artificial data, please refer to the 
-notebook [demo_ArtificialData.ipynb](demo_ArtificialData.ipynb) **([binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_ArtificialData.ipynb))**
- - For a demontration on eye-tracking data, please refer to the
-notebook [demo_EyeTrackingData.ipynb](demo_EyeTrackingData.ipynb) **([binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_EyeTrackingData.ipynb ))**
+- For a demonstration on artificial data, please refer to the 
+notebook [demo_ArtificialData.ipynb](demo_ArtificialData.ipynb) 
+( **[▶️ run binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_ArtificialData.ipynb)** )
+- For a demonstration on eye-tracking data, please refer to the
+notebook [demo_EyeTrackingData.ipynb](demo_EyeTrackingData.ipynb) 
+( **[▶️ run binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_EyeTrackingData.ipynb)** )
 
 *(note that the online viewer from Github sometimes needs one or two reload if the notebook was not rendered)*
 
 To run these notebooks interactively in JupyterLab, follow this link:
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?urlpath=lab)
+[![Binder](https://tinyurl.com/badgeJupyterLab)](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?urlpath=lab)

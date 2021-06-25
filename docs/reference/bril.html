@@ -12,8 +12,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -37,10 +37,16 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 
 <meta property="og:title" content="Bootstrap and Refine Iterative Locator — bril" />
-<meta property="og:description" content="Robust Estimate of Mode in Multivariate Distribuition" />
+<meta property="og:description" content="Robust Estimate of Mode in Multivariate Distribution" />
 
 
 
@@ -54,6 +60,16 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-200250973-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-200250973-2');
+</script>
 
 
   </head>
@@ -72,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BRIL</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -80,12 +96,30 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Notebooks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/demo_ArtificialData.html">Demo Artificial Data</a>
+    </li>
+    <li>
+      <a href="../articles/demo_EyeTrackingData.html">Demo Eye-tracking Data</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -96,6 +130,12 @@
   </a>
 </li>
       </ul>
+      
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
       
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -114,7 +154,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Robust Estimate of Mode in Multivariate Distribuition</p>
+    <p>Robust Estimate of Mode in Multivariate Distribution</p>
     </div>
 
     <pre class="usage"><span class='fu'>bril</span><span class='op'>(</span>
@@ -151,8 +191,8 @@ row, with two columns for X and Y coordinates)</p></td>
     <tr>
       <th>minUnassigned</th>
       <td><p>Numerical value between 0 and 1 (default: 0.1),
-providing the proportion of unasnigned samples from <code>data</code> below which the
-algorithm will terminate.</p></td>
+providing the proportion of unassigned samples from <code>data</code> below which the
+algorithm will terminate</p></td>
     </tr>
     <tr>
       <th>method</th>
@@ -169,12 +209,12 @@ median estimate (numerical value between 0 and 1, default: 0.5), see
     <tr>
       <th>testUnimodal</th>
       <td><p>Statistical test used for unimodality. Valid options are
-only "DIP", see <code><a href='filter_outliers.html'>filter_outliers()</a></code></p></td>
+"DIP" only, see <code><a href='filter_outliers.html'>filter_outliers()</a></code></p></td>
     </tr>
     <tr>
       <th>threshUnimodal</th>
       <td><p>Threshold of significance for the unimodality test
-(default: 0.05)</p></td>
+(numerical value between 0 and 1, default: 0.05)</p></td>
     </tr>
     <tr>
       <th>distUnimodal</th>
@@ -192,7 +232,7 @@ unimodality tests.</p></td>
     <tr>
       <th>threshNormal</th>
       <td><p>Threshold of significance for the normality test
-(default: 0.05)</p></td>
+(numerical value between 0 and 1, default: 0.05)</p></td>
     </tr>
     <tr>
       <th>distNormal</th>
@@ -211,13 +251,13 @@ iteration of the unimodality and normality filtering (default: 1), see
       <th>exitWhenUnimodal</th>
       <td><p>Logical value. <code>TRUE</code> will terminate the execution of
 the algorithm as soon as an unimodal subset is encountered on the start of
-an iteration. <code>FALSE</code> (default) will let that last iteration proceed before
-exiting</p></td>
+a global iteration. <code>FALSE</code> (default) will let that last iteration proceed
+before terminating</p></td>
     </tr>
     <tr>
       <th>debug</th>
       <td><p>Logical value. <code>TRUE</code> will compute all p.values in the filtering
-steps (even after the  p.values exceed the threshold, see
+steps (even after they exceed the selection threshold, see
 <code><a href='plot.BRIL.Filtering.html'>plot.BRIL.Filtering()</a></code>)</p></td>
     </tr>
     <tr>
@@ -230,53 +270,57 @@ steps (even after the  p.values exceed the threshold, see
 
     <p>The function returns an S3 object of type <code>BRIL</code> containing the
 following values:</p>
-<dt><code>call</code></dt><dd><p>Parameters of the call to the function (i.e. <code>data</code>,
-<code>maxIterations</code>, <code>minUnassigned</code>, <code>method</code>, <code>alpha</code>, <code>testUnimodal</code>,
-<code>threshUnimodal</code>, <code>distUnimodal</code>, <code>testNormal</code>, <code>threshNormal</code>,
-<code>distNormal</code>, <code>trimmedPerFilteringIteration</code>, and <code>exitWhenUnimodal</code>)</p></dd>
-<dt><code>iterations</code></dt><dd><p>A list of each iteration, containing the two filtering
-procedures performed: <code>filteringUnimodal</code> and <code>filteringNormal</code> (both being
-S3 object of class <code>BRIL.Filtering</code>, see <code><a href='filter_outliers.html'>filter_outliers()</a></code>)</p></dd>
-<dt><code>nbClusters</code></dt><dd><p>Number of groups encountered (one per iteration)</p></dd>
-<dt><code>labels</code></dt><dd><p>Labels of the groups encountered (cooresponding to the
-number of the iteration they were identified from)</p></dd>
+<dt><code>call</code></dt><dd><p>Parameters of the call (contains <code>data</code>, <code>maxIterations</code>,
+<code>minUnassigned</code>, <code>method</code>, <code>alpha</code>, <code>testUnimodal</code>, <code>threshUnimodal</code>,
+<code>distUnimodal</code>, <code>testNormal</code>, <code>threshNormal</code>, <code>distNormal</code>,
+<code>trimmedPerFilteringIteration</code>, and <code>exitWhenUnimodal</code>)</p></dd>
+<dt><code>iterations</code></dt><dd><p>A list with every global iteration of the algorithm,
+each containing the two filtering procedures performed: <code>filteringUnimodal</code>
+and <code>filteringNormal</code> (both being S3 object of class <code>BRIL.Filtering</code>, see
+<code><a href='filter_outliers.html'>filter_outliers()</a></code>)</p></dd>
+<dt><code>nbClusters</code></dt><dd><p>Number of groups encountered</p></dd>
+<dt><code>labels</code></dt><dd><p>Labels of the groups encountered (corresponding to the
+number of the iteration they were identified in)</p></dd>
 <dt><code>clustersCenters</code></dt><dd><p>Matrix containing the coordinates of the centers
-of each group (row-wise) the filtering</p></dd>
-<dt><code>clustersSizes</code></dt><dd><p>Array with the number of sample in each group</p></dd>
+of each group (row-wise)</p></dd>
+<dt><code>clustersSizes</code></dt><dd><p>Array with the number of samples in each group</p></dd>
 <dt><code>mainCluster</code></dt><dd><p>Index of the group identified as main mode</p></dd>
+<dt><code>mode</code></dt><dd><p>Coordinates of the main mode</p></dd>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='plot.BRIL.html'>plot.BRIL()</a></code>, <code><a href='print.BRIL.html'>print.BRIL()</a></code>, <code><a href='median_rec.html'>median_rec()</a></code>, <code><a href='median_mv.html'>median_mv()</a></code>, <code><a href='filter_outliers.html'>filter_outliers()</a></code>, <code><a href='depth_values.html'>depth_values()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='plot.BRIL.html'>plot.BRIL()</a></code>, <code><a href='print.BRIL.html'>print.BRIL()</a></code>, <code><a href='filter_outliers.html'>filter_outliers()</a></code>, <code><a href='median_rec.html'>median_rec()</a></code>,
+<code><a href='median_mv.html'>median_mv()</a></code>, <code><a href='depth_values.html'>depth_values()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
+<span class='co'># Create a sample distribution and run bril() function</span>
 <span class='va'>XY</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span>
-  <span class='fu'>mvtnorm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html'>rmvnorm</a></span><span class='op'>(</span><span class='fl'>300</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>3</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>,
-  <span class='fu'>mvtnorm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html'>rmvnorm</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>15</span>,<span class='fl'>20</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>,
-  <span class='fu'>mvtnorm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html'>rmvnorm</a></span><span class='op'>(</span><span class='fl'>150</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>10</span>,<span class='fl'>15</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>2</span><span class='op'>-</span><span class='fl'>0.5</span><span class='op'>)</span>,
-  <span class='fu'>mvtnorm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html'>rmvnorm</a></span><span class='op'>(</span><span class='fl'>200</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>,<span class='fl'>5</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>200</span><span class='op'>)</span>
+  <span class='fu'>mvtnorm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html'>rmvnorm</a></span><span class='op'>(</span><span class='fl'>300</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>3</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span>,
+  <span class='fu'>mvtnorm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html'>rmvnorm</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>15</span>, <span class='fl'>20</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='fu'>mvtnorm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html'>rmvnorm</a></span><span class='op'>(</span><span class='fl'>150</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>10</span>, <span class='fl'>15</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>2</span> <span class='op'>-</span> <span class='fl'>0.5</span><span class='op'>)</span>,
+  <span class='fu'>mvtnorm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html'>rmvnorm</a></span><span class='op'>(</span><span class='fl'>200</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>5</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>200</span><span class='op'>)</span>
 <span class='op'>)</span>
 
-<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>bril</span><span class='op'>(</span><span class='va'>XY</span>, debug<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>bril</span><span class='op'>(</span><span class='va'>XY</span>, debug <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt; =&gt; Results for bril() using method "Projection" (alpha=0.5), DIP Unimodality Test (&gt; 0.05), and Mardia Normality test (&gt; 0.05)
-#&gt;    750 samples: 3 clusters identified (sizes 311, 158, 105), and 176 samples unassigned
+#&gt;    750 samples: 3 clusters identified (sizes 311, 157, 105), and 177 samples unassigned
 #&gt; 
 #&gt; Mode:
-#&gt; [1] 0.03974884 0.02527810
+#&gt; [1]  0.2010784 -0.0902806
 #&gt; 
 #&gt; 
 #&gt; Clusters Sizes:
-#&gt; [1] 311 158 105
+#&gt; [1] 311 157 105
 #&gt; 
 #&gt; 
 #&gt; Clusters Centers:
-#&gt;             [,1]       [,2]
-#&gt; [1,]  0.03974884  0.0252781
-#&gt; [2,] -9.92389701 14.9076776
-#&gt; [3,] 14.95291046 19.8684087
+#&gt;            [,1]       [,2]
+#&gt; [1,]  0.2010784 -0.0902806
+#&gt; [2,] -9.8754989 15.0017539
+#&gt; [3,] 15.0869077 19.9320447
 #&gt; 
 #&gt; 
 #&gt; Labels:
@@ -289,27 +333,30 @@ of each group (row-wise) the filtering</p></dd>
 #&gt; [223] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 #&gt; [260] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 #&gt; [297] 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-#&gt; [334] 3 0 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+#&gt; [334] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
 #&gt; [371] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 2 2 2 2 2 2
 #&gt; [408] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
 #&gt; [445] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-#&gt; [482] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-#&gt; [519] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 2 2 2 2 0 1 0 0 0
-#&gt; [556] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1
-#&gt; [593] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 0 2 0 0 0 0 0
-#&gt; [630] 2 0 0 0 0 0 1 3 2 0 0 2 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0
-#&gt; [667] 0 1 0 0 3 2 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 3 0 0 1 0 0 0 0 0 0 0 0 0 2
-#&gt; [704] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0 0 2 3 0 0 1 0 0 0 3 0 0
-#&gt; [741] 1 0 0 0 0 0 0 0 0 0
+#&gt; [482] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 2 2 2 2 2 2 2 2 2 2 2 2
+#&gt; [519] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 0 0 0
+#&gt; [556] 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1
+#&gt; [593] 3 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 3 0 0 0 0 0 0 0 0 2
+#&gt; [630] 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2
+#&gt; [667] 1 0 0 1 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 2 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0
+#&gt; [704] 0 0 0 2 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 2 0 0 0 0 0 0 0 0 0
+#&gt; [741] 0 0 2 0 0 0 0 0 3 0
 #&gt; 
 #&gt; </div><div class='input'>
 <span class='co'># Plot the mode and groups encountered</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
-</div><div class='img'><img src='bril-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='img'><img src='bril-1.svg' alt='' width='701' height='701' /></div><div class='input'>
 <span class='co'># Plot the different iterations (interactive)</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res</span>, <span class='st'>"iterations"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res</span>, contents <span class='op'>=</span> <span class='st'>"iterations"</span>, asp <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 <span class='op'>}</span>
+
+<span class='co'># See ?plot.BRIL() for other plotting examples</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -322,7 +369,7 @@ of each group (row-wise) the filtering</p></dd>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Adrien Brilhault.</p>
+  <p>Developed by <a href='https://www.linkedin.com/in/adrienbrilhault/'>Adrien Brilhault</a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -333,6 +380,23 @@ of each group (row-wise) the filtering</p></dd>
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '4dc1937e97dc79698b3bbb06638278be',
+    indexName: 'adrienbrilhault',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
 
   </body>

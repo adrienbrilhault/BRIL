@@ -24,7 +24,7 @@ body minimizers, or "L2", "Lui", "Mahalanobis", "Oja", "Projection"
 between 0 and 1, default: 0.5)}
 
 \item{maxIterations}{Set to a positive integer to limit the number of
-iterations, to NULL or 0 (default) for no limits.}
+iterations, to NULL or 0 (default) for no limits}
 
 \item{warnings}{Logical value, to display the warnings and error raised by
 the underlying functions}
@@ -36,19 +36,19 @@ containing the following values:
 \item{\code{max}}{Coordinate of the sample with the highest depth (or the
 center of the first iteration in the case of convex body minimizers)}
 \item{\code{iterations}}{List containing the indices from the samples of \code{data}
-selected at each iterations}
+selected at each iteration}
 }
 \description{
 Recursive estimate of central location based on depth measures (from the
 packages
-\href{https://cran.r-project.org/web/packages/depth/index.html}{\code{depth}} and
-\href{https://cran.r-project.org/web/packages/ddalpha/index.html}{\code{ddalpha}})
+\href{https://CRAN.R-project.org/package=depth}{\code{depth}} and
+\href{https://CRAN.R-project.org/package=ddalpha}{\code{ddalpha}})
 or convex body minimizers (package
-\href{https://cran.r-project.org/web/packages/MASS/index.html}{\code{MASS}}).
+\href{https://CRAN.R-project.org/package=MASS}{\code{MASS}}).
 }
 \examples{
 
-# illustrative data
+# Illustrative data
 XY <- rbind(
   mvtnorm::rmvnorm(300, c(0, 0), diag(2)),
   mvtnorm::rmvnorm(100, c(15, 20), diag(2) * 3 - 1),

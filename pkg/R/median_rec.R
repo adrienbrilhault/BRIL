@@ -3,10 +3,10 @@
 #'
 #' Recursive estimate of central location based on depth measures (from the
 #' packages
-#' \href{https://cran.r-project.org/web/packages/depth/index.html}{`depth`} and
-#' \href{https://cran.r-project.org/web/packages/ddalpha/index.html}{`ddalpha`})
+#' \href{https://CRAN.R-project.org/package=depth}{`depth`} and
+#' \href{https://CRAN.R-project.org/package=ddalpha}{`ddalpha`})
 #' or convex body minimizers (package
-#' \href{https://cran.r-project.org/web/packages/MASS/index.html}{`MASS`}).
+#' \href{https://CRAN.R-project.org/package=MASS}{`MASS`}).
 #'
 #' @param data Matrix of numerical values containing the observations (one per
 #'   row, with two columns for X and Y coordinates)
@@ -16,7 +16,7 @@
 #' @param alpha Proportion of samples trimmed at each iteration (numerical value
 #'   between 0 and 1, default: 0.5)
 #' @param maxIterations Set to a positive integer to limit the number of
-#'   iterations, to NULL or 0 (default) for no limits.
+#'   iterations, to NULL or 0 (default) for no limits
 #' @param warnings Logical value, to display the warnings and error raised by
 #'   the underlying functions
 #'
@@ -26,13 +26,13 @@
 #'   \item{`max`}{Coordinate of the sample with the highest depth (or the
 #'   center of the first iteration in the case of convex body minimizers)}
 #'   \item{`iterations`}{List containing the indices from the samples of `data`
-#'   selected at each iterations}
+#'   selected at each iteration}
 #'
 #' @seealso [plot.BRIL.MedianRec()], [print.BRIL.MedianRec()], [median_mv()], [depth_values()], [bril()]
 #'
 #' @examples
 #'
-#' # illustrative data
+#' # Illustrative data
 #' XY <- rbind(
 #'   mvtnorm::rmvnorm(300, c(0, 0), diag(2)),
 #'   mvtnorm::rmvnorm(100, c(15, 20), diag(2) * 3 - 1),
@@ -97,7 +97,7 @@ median_rec <- function(data, method = "Projection", alpha = 0.5, maxIterations =
   output$call$maxIterations <- maxIterations
   output$median <- c(stats::median(data[, 1]), stats::median(data[, 2]))
   output$max <- output$median
-  output$iterations <- list(1:nrow(data))
+  output$iterations <- list(seq_len(nrow(data)))
 
   nbPoints <- nrow(data)
 
@@ -116,35 +116,34 @@ median_rec <- function(data, method = "Projection", alpha = 0.5, maxIterations =
   if (method %in% c("MCD", "MVE")) {
     while (!is.null(nbPoints) && nbPoints > minSampleSize && (is.null(maxIterations) || iterationNB <= maxIterations)) {
       robustScatter <- withCallingHandlers(
-        withRestarts(
-          {
-            robustScatter <- MASS::cov.rob(data,
-              cor = FALSE,
-              max(minSampleSize, floor(nbPoints * (1 - alpha))),
-              tolower(method), nsamp = methodNsamp
-            )
+        withRestarts({
+          robustScatter <- MASS::cov.rob(data,
+                                         cor = FALSE,
+                                         max(minSampleSize, floor(nbPoints * (1 - alpha))),
+                                         tolower(method), nsamp = methodNsamp
+          )
 
-            # Check values are correct if it restarts from a warning
-            if (!exists("robustScatter") || !("center" %in% names(robustScatter)) ||
+          # Check values are correct if it restarts from a warning
+          if (!exists("robustScatter") || !("center" %in% names(robustScatter)) ||
               !("best" %in% names(robustScatter)) || anyNA(robustScatter$center) ||
               anyNA(robustScatter$best)) {
-              robustScatter <- NULL
-              if (warnings) {
-                warning("In median_rec() with method=\"", method, "\" and ", nrow(data),
-                  " samples: robust estimator failed",
-                  call. = FALSE
-                )
-              }
+            robustScatter <- NULL
+            if (warnings) {
+              warning("In median_rec() with method=\"", method, "\" and ", nrow(data),
+                      " samples: robust estimator failed",
+                      call. = FALSE
+              )
             }
-            robustScatter
-          },
-          muffleError = function() NULL
+          }
+          robustScatter
+        },
+        muffleError = function() NULL
         ),
         warning = function(w) {
           if (warnings && !grepl("loss of accuracy", w, fixed = TRUE)) {
             warning("Warning caught in median_rec() with method=\"", method, "\" and ",
-              nrow(data), " samples:\n* ", w,
-              call. = FALSE
+                    nrow(data), " samples:\n* ", w,
+                    call. = FALSE
             )
           }
           invokeRestart("muffleWarning")
@@ -152,11 +151,10 @@ median_rec <- function(data, method = "Projection", alpha = 0.5, maxIterations =
         error = function(e) {
           if (warnings) {
             warning("Error caught in median_rec() with method=\"", method, "\" and ",
-              nrow(data), " samples:\n* ", e,
-              call. = FALSE
+                    nrow(data), " samples:\n* ", e,
+                    call. = FALSE
             )
           }
-
           invokeRestart("muffleError")
         }
       )
@@ -188,7 +186,7 @@ median_rec <- function(data, method = "Projection", alpha = 0.5, maxIterations =
     }
   } else {
     while (!is.null(nbPoints) && nbPoints > minSampleSize &&
-      (is.null(maxIterations) || iterationNB <= maxIterations)) {
+           (is.null(maxIterations) || iterationNB <= maxIterations)) {
       depthValues <- depth_values(data, method = method, warnings = warnings)
       if (all(depthValues == 0)) {
         if (warnings) {
@@ -279,6 +277,7 @@ print.BRIL.MedianRec <- function(x, ...) {
   cat("\nSample median (max):\n")
   print(x$max, ...)
   cat("\n")
+
   invisible(x)
 }
 
@@ -289,15 +288,15 @@ print.BRIL.MedianRec <- function(x, ...) {
 #' @param x An object of class `BRIL.MedianRec` (see [median_rec()])
 #' @param nbIterations Number of iterations to display, or 0 to show all of them
 #'   (default: 5)
-#' @param showMedian Logical, to show the final recursive median (indicated by a
-#'   "+")
-#' @param showMax Logical, to show the overall deepest point, or the center of
-#'   the first MCD/MVE iteration (indicated by a "x")
+#' @param showMedian Logical value, to show the final recursive median
+#'   (indicated by a "+")
+#' @param showMax Logical value, to show the overall deepest point, or the
+#'   center of the first MCD/MVE iteration (indicated by a "x")
 #' @param ... Other arguments passed to or from other methods
 #'
 #' @examples
 #'
-#' # illustrative data
+#' # Illustrative data
 #' XY <- rbind(
 #'   mvtnorm::rmvnorm(300, c(0, 0), diag(2)),
 #'   mvtnorm::rmvnorm(100, c(15, 20), diag(2) * 3 - 1),
@@ -316,6 +315,7 @@ print.BRIL.MedianRec <- function(x, ...) {
 #'
 #' # Change other graphical options
 #' plot(res, showMedian = TRUE, pch = 16, main = "Recursive Median")
+#'
 #' @seealso [median_rec()], [median_mv()], [bril()]
 #'
 #' @export
@@ -346,18 +346,18 @@ plot.BRIL.MedianRec <- function(x, nbIterations = 5, showMedian = FALSE, showMax
   myColours <- rev(grDevices::rainbow(min(nbIterations, length(x$iterations))))
 
   for (i in 2:min(nbIterations + 1, length(x$iterations))) {
-    do.call(graphics::points, utils::modifyList(
+    do.call(points, utils::modifyList(
       list(x$call$data[x$iterations[[i]], 1],
-        x$call$data[x$iterations[[i]], 2],
-        col = myColours[i - 1], pch = 1
+           x$call$data[x$iterations[[i]], 2],
+           col = myColours[i - 1], pch = 1
       ),
       otherArgs[names(otherArgs) %in% c("col") == FALSE]
     ))
   }
   if (showMedian) {
-    graphics::points(x$median[1], x$median[2], col = "black", pch = 3, cex = 1.5, lwd = 3)
+    points(x$median[1], x$median[2], col = "black", pch = 3, cex = 1.5, lwd = 3)
   }
   if (showMax) {
-    graphics::points(x$max[1], x$max[2], col = "black", pch = 4, cex = 1.5, lwd = 3)
+    points(x$max[1], x$max[2], col = "black", pch = 4, cex = 1.5, lwd = 3)
   }
 }

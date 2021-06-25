@@ -1,0 +1,72 @@
+url: https://adrienbrilhault.github.io/BRIL/
+
+authors:
+  Adrien Brilhault:
+    href: https://www.linkedin.com/in/adrienbrilhault/
+
+repo:
+  url:
+    home: https://github.com/adrienbrilhault/BRIL/
+    source: https://github.com/adrienbrilhault/BRIL/blob/master/pkg/
+    issue: https://github.com/adrienbrilhault/BRIL/
+    user: https://github.com/
+
+template:
+  bootstrap: 4
+  params:
+    bootswatch: cosmo
+    ganalytics: UA-200250973-2
+    docsearch:
+      api_key: 4dc1937e97dc79698b3bbb06638278be
+      index_name: adrienbrilhault
+development:
+  mode: auto
+
+navbar:
+  components:
+    home: 
+      icon: fa-home fa-lg
+      href: index.html
+    articles:
+     text: Notebooks
+     menu:
+     - text: Demo Artificial Data
+       href: articles/demo_ArtificialData.html
+     - text: Demo Eye-tracking Data
+       href: articles/demo_EyeTrackingData.html
+
+reference:
+  - title: "Main functions"
+    desc: >
+      Main functions of the BRIL package, which include multivariate mode and median estimates, 
+      as well as auxillary functions based on depth measures or convex body minimizers.
+    contents: 
+      - bril
+      - filter_outliers
+      - median_rec
+      - median_mv
+      - depth_values
+  - title: "Printing and Plotting"
+    desc: "`Print` and `Plot` functions for the classes from the `BRIL` package."
+    contents:
+      - starts_with("print")
+      - starts_with("plot")
+  - title: "Internal functions"
+    desc: "Unimodality and normality tests called internally."
+    contents:
+      - starts_with("test_")
+
+toc:
+  depth: 4
+
+figures:
+  dev: grDevices::svg
+  dev.args: []
+  fig.ext: "svg"
+  fig.width: 7.3
+  fig.height: ~
+  fig.retina: 2
+  fig.asp: 1
+
+
+

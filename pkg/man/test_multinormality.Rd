@@ -14,9 +14,10 @@ test_multinormality(
 )
 }
 \arguments{
-\item{values}{Unidimentional array of numerical values (distances)}
+\item{values}{Unidimensional array of numerical values (distances)}
 
-\item{test}{Statistical test used (for now the only option "DIP")}
+\item{test}{Statistical test used, valid options are "Mardia", "Kurtosis",
+"Skewness", "KS", "KS-adj", "Shapiro", "Lillie", and "Chisq"}
 
 \item{threshold}{Threshold of significance for the statistical test
 (default: 0.05)}
@@ -38,4 +39,7 @@ Test the multivariate normality of a distribution
 Parameter \code{data} is only required for the tests "Mardia",
 "Skewness", "Kurtosis" and "Chisq", while parameter \code{center} is only
 required for "Chisq"
+}
+\seealso{
+\code{\link[=filter_outliers]{filter_outliers()}}
 }

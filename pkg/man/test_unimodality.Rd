@@ -7,7 +7,7 @@
 test_unimodality(values, test = "DIP", warnings = FALSE)
 }
 \arguments{
-\item{values}{Unidimentional array of numerical values (distances)}
+\item{values}{Unidimensional array of numerical values (distances)}
 
 \item{test}{Statistical test used (for now the only option is "DIP")}
 
@@ -18,4 +18,7 @@ p-value of the test (lower values suggest multimodality)
 }
 \description{
 Test the unimodality of a distribution
+}
+\seealso{
+\code{\link[=filter_outliers]{filter_outliers()}}
 }

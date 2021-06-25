@@ -10,7 +10,7 @@
 \item{x}{An object of class \code{BRIL.Filtering} (see \code{\link[=filter_outliers]{filter_outliers()}})}
 
 \item{maxDisplayed}{Number of elements to display in the output (default:
-500). Set to NULL (or 0) to show all values.}
+200). Set to NULL (or 0) to show all values.}
 
 \item{...}{Other arguments passed to or from other methods}
 }

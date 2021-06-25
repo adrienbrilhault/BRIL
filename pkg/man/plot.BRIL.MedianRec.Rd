@@ -12,11 +12,11 @@
 \item{nbIterations}{Number of iterations to display, or 0 to show all of them
 (default: 5)}
 
-\item{showMedian}{Logical, to show the final recursive median (indicated by a
-"+")}
+\item{showMedian}{Logical value, to show the final recursive median
+(indicated by a "+")}
 
-\item{showMax}{Logical, to show the overall deepest point, or the center of
-the first MCD/MVE iteration (indicated by a "x")}
+\item{showMax}{Logical value, to show the overall deepest point, or the
+center of the first MCD/MVE iteration (indicated by a "x")}
 
 \item{...}{Other arguments passed to or from other methods}
 }
@@ -25,7 +25,7 @@ Plot method for \code{BRIL.MedianRec} objects
 }
 \examples{
 
-# illustrative data
+# Illustrative data
 XY <- rbind(
   mvtnorm::rmvnorm(300, c(0, 0), diag(2)),
   mvtnorm::rmvnorm(100, c(15, 20), diag(2) * 3 - 1),
@@ -44,6 +44,7 @@ plot(res, asp = 1, xlim = c(-20, 20), ylim = c(-20, 20))
 
 # Change other graphical options
 plot(res, showMedian = TRUE, pch = 16, main = "Recursive Median")
+
 }
 \seealso{
 \code{\link[=median_rec]{median_rec()}}, \code{\link[=median_mv]{median_mv()}}, \code{\link[=bril]{bril()}}

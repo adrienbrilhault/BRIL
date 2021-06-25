@@ -2,7 +2,7 @@
 % Please edit documentation in R/depth_values.R
 \name{depth_values}
 \alias{depth_values}
-\title{Depth function wrapper}
+\title{Depth functions wrapper}
 \usage{
 depth_values(data, u = NULL, method = "Projection", warnings = FALSE)
 }
@@ -12,14 +12,14 @@ row, with two columns for X and Y coordinates)}
 
 \item{u}{Matrix of numerical values containing the coordinates for which
 depth values are to be computed (in rows, with two columns for X and Y
-coordinates). when NULL, depth values will be computed for all observations
-from \code{data}.}
+coordinates). When missing or NULL, depth values will be computed for all
+observations from \code{data}}
 
-\item{method}{Depth function to use. Valid options are "L2", "Lui",
+\item{method}{Depth function used. Valid options are "L2", "Lui",
 "Mahalanobis", "Oja", "Projection" (default), "Spatial", "Tukey"}
 
 \item{warnings}{Logical value, to display the warnings and error raised by
-the underlying depth functions called.}
+the underlying depth functions}
 }
 \value{
 Array of numerical values containing the depth of each observation
@@ -29,13 +29,13 @@ occurrence of errors)
 \description{
 Computes the depth values with respect to the distribution provided in \code{data}
 of either all the coordinates given in \code{u}, or all observations from \code{data}
-if \code{u} isn't provided. Depth computations rely on the packages
-\href{https://cran.r-project.org/web/packages/depth/index.html}{\code{depth}} and
-\href{https://cran.r-project.org/web/packages/ddalpha/index.html}{\code{ddalpha}}.
+if \code{u} is not provided. Depth computations rely on the packages
+\href{https://CRAN.R-project.org/package=depth}{\code{depth}} and
+\href{https://CRAN.R-project.org/package=ddalpha}{\code{ddalpha}}.
 }
 \examples{
 
-# illustrative data
+# Illustrative data
 XY <- rbind(
   mvtnorm::rmvnorm(300, c(0, 0), diag(2)),
   mvtnorm::rmvnorm(100, c(15, 20), diag(2) * 3 - 1),
@@ -43,23 +43,25 @@ XY <- rbind(
   mvtnorm::rmvnorm(200, c(5, 5), diag(2) * 200)
 )
 
-# compute depths
-D <- depth_values(XY, method = "L2")
+# Compute depths
+D <- depth_values(XY, method = "L2", warnings = TRUE)
 
-# plot results
-graphics::par(mfrow = c(1, 2))
+# Plot distribution with depth color scale
 plotColors <- colorRampPalette(c("maroon4", "steelblue4", "green4", "gold"))(20)
-plot(XY, pch = 20, asp = 1, col = plotColors[as.numeric(cut(D, breaks = 20))], xlab = "X", ylab = "Y")
-plot(1:nrow(XY), D, pch = 20, col = plotColors[as.numeric(cut(D, breaks = 20))], xlab = "Index", ylab = "Depth")
-graphics::par(mfrow = c(1, 1))
+plot(XY, pch = 20, asp = 1, col = plotColors[as.numeric(cut(D, breaks = 20))],
+     xlab = "X", ylab = "Y")
 
-# compute depth for a single point
+# Plot depth values
+plot(1:nrow(XY), D, pch = 20, col = plotColors[as.numeric(cut(D, breaks = 20))],
+     xlab = "Index", ylab = "Depth")
+
+# Compute depth for a single point
 depth_values(XY, c(10, 3), method = "L2")
 
-# compute depth for three sets of coordinates
+# Compute depth for three sets of coordinates
 depth_values(XY, rbind(c(10, 3), c(65, 8), c(0, 1)), method = "L2")
 
 }
 \seealso{
-\code{\link[=median_rec]{median_rec()}}, \code{\link[=median_mv]{median_mv()}}, \code{\link[=bril]{bril()}}
+\code{\link[=bril]{bril()}}, \code{\link[=filter_outliers]{filter_outliers()}}, \code{\link[=median_rec]{median_rec()}}, \code{\link[=median_mv]{median_mv()}}
 }

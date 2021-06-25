@@ -12,8 +12,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -37,6 +37,12 @@
 <script src="../pkgdown.js"></script>
 
 
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.3/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 
 <meta property="og:title" content="Plot method for BRIL.Filtering objects — plot.BRIL.Filtering" />
@@ -55,6 +61,16 @@
 <![endif]-->
 
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-200250973-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-200250973-2');
+</script>
+
 
   </head>
 
@@ -72,7 +88,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BRIL</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -80,12 +96,30 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Notebooks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/demo_ArtificialData.html">Demo Artificial Data</a>
+    </li>
+    <li>
+      <a href="../articles/demo_EyeTrackingData.html">Demo Eye-tracking Data</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -96,6 +130,12 @@
   </a>
 </li>
       </ul>
+      
+      <form class="navbar-form navbar-right hidden-xs hidden-sm" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
       
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -162,12 +202,12 @@ filtering process</p></td>
     </tr>
     <tr>
       <th>colCenter</th>
-      <td><p>Color for center in "scatterplot" (default: "orange")</p></td>
+      <td><p>Color for the center in "scatterplot" (default: "orange")</p></td>
     </tr>
     <tr>
       <th>mtextTitles</th>
       <td><p>Logical value, <code>TRUE</code> to set smaller titles/subtitles on
-top, <code>FALSE</code> to use the default plot options.</p></td>
+top, <code>FALSE</code> to use the default plot title options.</p></td>
     </tr>
     <tr>
       <th>mfrow</th>
@@ -183,7 +223,11 @@ the symbols, main and sub for title and subtitle, xlab, xmin, ...)</p></td>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>contents</code> options:</p><ul>
+    <p><em>Red intercept lines correspond to the
+selection based on the p.values exceeding the given threshold.</em> <br />
+<em>To display all the p.values, rerun the function <code><a href='filter_outliers.html'>filter_outliers()</a></code>
+with the parameter <code>debug = TRUE</code></em> <br /> <br /></p>
+<p><code>contents</code> options:</p><ul>
 <li><p><b>"p.values"</b> provides a plot of the test p.values (in function of
 the subset size)</p></li>
 <li><p><b>"scatterplot"</b> displays the data in cartesian coordinates. Selected
@@ -196,19 +240,14 @@ the center provided in <code><a href='filter_outliers.html'>filter_outliers()</a
 <li><p><b>"all"</b> displays a figure with all of the options above</p></li>
 </ul>
 
-<p><b><em>Notes:</em></b> <br /> <br />
-<em>Red intercept lines correspond to the
-selection based on the p.values exceeding the given threshold.</em> <br />
-<em>To display all the p.values, rerun the function <code><a href='filter_outliers.html'>filter_outliers()</a></code>
-with the parameter <code>debug=TRUE</code></em></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='filter_outliers.html'>filter_outliers()</a></code>,<code><a href='print.BRIL.Filtering.html'>print.BRIL.Filtering()</a></code></p>
-<p><code><a href='filter_outliers.html'>filter_outliers()</a></code>, <code><a href='median_rec.html'>median_rec()</a></code>, <code><a href='median_mv.html'>median_mv()</a></code>, <code><a href='bril.html'>bril()</a></code></p></div>
+    <div class='dont-index'><p><code><a href='filter_outliers.html'>filter_outliers()</a></code>, <code><a href='print.BRIL.Filtering.html'>print.BRIL.Filtering()</a></code>, <code><a href='bril.html'>bril()</a></code>,
+<code><a href='median_rec.html'>median_rec()</a></code>, <code><a href='median_mv.html'>median_mv()</a></code>, <code><a href='depth_values.html'>depth_values()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='co'># illustrative data</span>
+<span class='co'># Illustrative data</span>
 <span class='va'>XY</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span>
   <span class='fu'>mvtnorm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html'>rmvnorm</a></span><span class='op'>(</span><span class='fl'>300</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>3</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span>,
   <span class='fu'>mvtnorm</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mvtnorm/man/Mvnorm.html'>rmvnorm</a></span><span class='op'>(</span><span class='fl'>100</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>15</span>, <span class='fl'>20</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>,
@@ -221,21 +260,29 @@ with the parameter <code>debug=TRUE</code></em></p>
 
 <span class='co'># Plot all default figures</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>filtering</span><span class='op'>)</span>
-</div><div class='img'><img src='plot.BRIL.Filtering-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='img'><img src='plot.BRIL.Filtering-1.svg' alt='' width='701' height='701' /></div><div class='input'>
 <span class='co'># Plot P.Values and Scatterplot only</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>filtering</span>, contents <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pvalues"</span>, <span class='st'>"scatterplot"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='input'>
 <span class='co'># Change the layout to vertical</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>filtering</span>, contents <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pvalues"</span>, <span class='st'>"scatterplot"</span><span class='op'>)</span>, mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='plot.BRIL.Filtering-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='img'><img src='plot.BRIL.Filtering-2.svg' alt='' width='701' height='701' /></div><div class='input'>
 <span class='co'># Remove title, subtitle, and axis labels</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>filtering</span>, contents <span class='op'>=</span> <span class='st'>"scatterplot"</span>, main <span class='op'>=</span> <span class='st'>""</span>, sub <span class='op'>=</span> <span class='st'>""</span>, ylab <span class='op'>=</span> <span class='st'>""</span>, xlab <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span>
-</div><div class='img'><img src='plot.BRIL.Filtering-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>filtering</span>, contents <span class='op'>=</span> <span class='st'>"scatterplot"</span>, main <span class='op'>=</span> <span class='st'>""</span>, sub <span class='op'>=</span> <span class='st'>""</span>,
+  ylab <span class='op'>=</span> <span class='st'>""</span>, xlab <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span>
+</div><div class='img'><img src='plot.BRIL.Filtering-3.svg' alt='' width='701' height='701' /></div><div class='input'>
 <span class='co'># Other graphical options</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>filtering</span>, contents <span class='op'>=</span> <span class='st'>"scatterplot"</span>, asp <span class='op'>=</span> <span class='fl'>1</span>, xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>30</span>, <span class='fl'>30</span><span class='op'>)</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>30</span>, <span class='fl'>30</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='plot.BRIL.Filtering-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>filtering</span>, contents <span class='op'>=</span> <span class='st'>"scatterplot"</span>, asp <span class='op'>=</span> <span class='fl'>1</span>, pch <span class='op'>=</span> <span class='fl'>4</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>, colSelection <span class='op'>=</span> <span class='st'>"green"</span>, showCenter <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='img'><img src='plot.BRIL.Filtering-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>filtering</span>, contents <span class='op'>=</span> <span class='st'>"hist"</span>, main <span class='op'>=</span> <span class='st'>"My Histogram"</span>, showSelection <span class='op'>=</span> <span class='cn'>FALSE</span>, breaks <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span>
-</div><div class='img'><img src='plot.BRIL.Filtering-6.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>filtering</span>, contents <span class='op'>=</span> <span class='st'>"scatterplot"</span>, asp <span class='op'>=</span> <span class='fl'>1</span>,
+  xlim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>30</span>, <span class='fl'>30</span><span class='op'>)</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>30</span>, <span class='fl'>30</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='plot.BRIL.Filtering-4.svg' alt='' width='701' height='701' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>filtering</span>,
+  contents <span class='op'>=</span> <span class='st'>"scatterplot"</span>, asp <span class='op'>=</span> <span class='fl'>1</span>, pch <span class='op'>=</span> <span class='fl'>4</span>, lwd <span class='op'>=</span> <span class='fl'>2</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>,
+  colSelection <span class='op'>=</span> <span class='st'>"green"</span>, showCenter <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
+</div><div class='img'><img src='plot.BRIL.Filtering-5.svg' alt='' width='701' height='701' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>filtering</span>, contents <span class='op'>=</span> <span class='st'>"hist"</span>, main <span class='op'>=</span> <span class='st'>"My Histogram"</span>,
+  showSelection <span class='op'>=</span> <span class='cn'>FALSE</span>, breaks <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span>
+</div><div class='img'><img src='plot.BRIL.Filtering-6.svg' alt='' width='701' height='701' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -248,7 +295,7 @@ with the parameter <code>debug=TRUE</code></em></p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Adrien Brilhault.</p>
+  <p>Developed by <a href='https://www.linkedin.com/in/adrienbrilhault/'>Adrien Brilhault</a>.</p>
 </div>
 
 <div class="pkgdown">
@@ -259,6 +306,23 @@ with the parameter <code>debug=TRUE</code></em></p>
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '4dc1937e97dc79698b3bbb06638278be',
+    indexName: 'adrienbrilhault',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
 
   </body>

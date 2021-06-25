@@ -30,8 +30,8 @@ row, with two columns for X and Y coordinates)}
 (set to NULL or 0 for unlimited number)}
 
 \item{minUnassigned}{Numerical value between 0 and 1 (default: 0.1),
-providing the proportion of unasnigned samples from \code{data} below which the
-algorithm will terminate.}
+providing the proportion of unassigned samples from \code{data} below which the
+algorithm will terminate}
 
 \item{method}{Method to use. Valid options are "MCD" and "MVE" for convex
 body minimizers, or "L2", "Lui", "Mahalanobis", "Oja", "Projection"
@@ -42,10 +42,10 @@ median estimate (numerical value between 0 and 1, default: 0.5), see
 \code{\link[=median_rec]{median_rec()}}}
 
 \item{testUnimodal}{Statistical test used for unimodality. Valid options are
-only "DIP", see \code{\link[=filter_outliers]{filter_outliers()}}}
+"DIP" only, see \code{\link[=filter_outliers]{filter_outliers()}}}
 
 \item{threshUnimodal}{Threshold of significance for the unimodality test
-(default: 0.05)}
+(numerical value between 0 and 1, default: 0.05)}
 
 \item{distUnimodal}{Distance metric used for ordering the samples in the
 unimodal filtering. Valid options are "Euclidean" (default), or "MCD",
@@ -57,7 +57,7 @@ unimodality tests.}
 "Lillie" and "Chisq", see \code{\link[=filter_outliers]{filter_outliers()}}}
 
 \item{threshNormal}{Threshold of significance for the normality test
-(default: 0.05)}
+(numerical value between 0 and 1, default: 0.05)}
 
 \item{distNormal}{Distance metric used for ordering the samples in the normal
 filtering. Valid options are "Euclidean", or "MCD" (default), "MVE", and
@@ -70,11 +70,11 @@ iteration of the unimodality and normality filtering (default: 1), see
 
 \item{exitWhenUnimodal}{Logical value. \code{TRUE} will terminate the execution of
 the algorithm as soon as an unimodal subset is encountered on the start of
-an iteration. \code{FALSE} (default) will let that last iteration proceed before
-exiting}
+a global iteration. \code{FALSE} (default) will let that last iteration proceed
+before terminating}
 
 \item{debug}{Logical value. \code{TRUE} will compute all p.values in the filtering
-steps (even after the  p.values exceed the threshold, see
+steps (even after they exceed the selection threshold, see
 \code{\link[=plot.BRIL.Filtering]{plot.BRIL.Filtering()}})}
 
 \item{warnings}{Logical value, to display the warnings and errors caught}
@@ -82,34 +82,37 @@ steps (even after the  p.values exceed the threshold, see
 \value{
 The function returns an S3 object of type \code{BRIL} containing the
 following values:
-\item{\code{call}}{Parameters of the call to the function (i.e. \code{data},
-\code{maxIterations}, \code{minUnassigned}, \code{method}, \code{alpha}, \code{testUnimodal},
-\code{threshUnimodal}, \code{distUnimodal}, \code{testNormal}, \code{threshNormal},
-\code{distNormal}, \code{trimmedPerFilteringIteration}, and \code{exitWhenUnimodal})}
-\item{\code{iterations}}{A list of each iteration, containing the two filtering
-procedures performed: \code{filteringUnimodal} and \code{filteringNormal} (both being
-S3 object of class \code{BRIL.Filtering}, see \code{\link[=filter_outliers]{filter_outliers()}})}
-\item{\code{nbClusters}}{Number of groups encountered (one per iteration)}
-\item{\code{labels}}{Labels of the groups encountered (cooresponding to the
-number of the iteration they were identified from)}
+\item{\code{call}}{Parameters of the call (contains \code{data}, \code{maxIterations},
+\code{minUnassigned}, \code{method}, \code{alpha}, \code{testUnimodal}, \code{threshUnimodal},
+\code{distUnimodal}, \code{testNormal}, \code{threshNormal}, \code{distNormal},
+\code{trimmedPerFilteringIteration}, and \code{exitWhenUnimodal})}
+\item{\code{iterations}}{A list with every global iteration of the algorithm,
+each containing the two filtering procedures performed: \code{filteringUnimodal}
+and \code{filteringNormal} (both being S3 object of class \code{BRIL.Filtering}, see
+\code{\link[=filter_outliers]{filter_outliers()}})}
+\item{\code{nbClusters}}{Number of groups encountered}
+\item{\code{labels}}{Labels of the groups encountered (corresponding to the
+number of the iteration they were identified in)}
 \item{\code{clustersCenters}}{Matrix containing the coordinates of the centers
-of each group (row-wise) the filtering}
-\item{\code{clustersSizes}}{Array with the number of sample in each group}
+of each group (row-wise)}
+\item{\code{clustersSizes}}{Array with the number of samples in each group}
 \item{\code{mainCluster}}{Index of the group identified as main mode}
+\item{\code{mode}}{Coordinates of the main mode}
 }
 \description{
-Robust Estimate of Mode in Multivariate Distribuition
+Robust Estimate of Mode in Multivariate Distribution
 }
 \examples{
 
+# Create a sample distribution and run bril() function
 XY <- rbind(
-  mvtnorm::rmvnorm(300, c(0,0), diag(2)*3-1),
-  mvtnorm::rmvnorm(100, c(15,20), diag(2)),
-  mvtnorm::rmvnorm(150, c(-10,15), diag(2)*2-0.5),
-  mvtnorm::rmvnorm(200, c(5,5), diag(2)*200)
+  mvtnorm::rmvnorm(300, c(0, 0), diag(2) * 3 - 1),
+  mvtnorm::rmvnorm(100, c(15, 20), diag(2)),
+  mvtnorm::rmvnorm(150, c(-10, 15), diag(2) * 2 - 0.5),
+  mvtnorm::rmvnorm(200, c(5, 5), diag(2) * 200)
 )
 
-res <- bril(XY, debug=TRUE)
+res <- bril(XY, debug = TRUE)
 print(res)
 
 # Plot the mode and groups encountered
@@ -117,9 +120,13 @@ plot(res)
 
 # Plot the different iterations (interactive)
 \dontrun{
-plot(res, "iterations")
+plot(res, contents = "iterations", asp = 1)
 }
+
+# See ?plot.BRIL() for other plotting examples
+
 }
 \seealso{
-\code{\link[=plot.BRIL]{plot.BRIL()}}, \code{\link[=print.BRIL]{print.BRIL()}}, \code{\link[=median_rec]{median_rec()}}, \code{\link[=median_mv]{median_mv()}}, \code{\link[=filter_outliers]{filter_outliers()}}, \code{\link[=depth_values]{depth_values()}}
+\code{\link[=plot.BRIL]{plot.BRIL()}}, \code{\link[=print.BRIL]{print.BRIL()}}, \code{\link[=filter_outliers]{filter_outliers()}}, \code{\link[=median_rec]{median_rec()}},
+\code{\link[=median_mv]{median_mv()}}, \code{\link[=depth_values]{depth_values()}}
 }

@@ -18,5 +18,5 @@
 Print method for \code{BRIL} objects
 }
 \seealso{
-\code{\link[=plot.BRIL]{plot.BRIL()}}, \code{\link[=bril]{bril()}}
+\code{\link[=bril]{bril()}}, \code{\link[=plot.BRIL]{plot.BRIL()}}
 }

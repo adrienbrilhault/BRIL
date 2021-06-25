@@ -20,33 +20,33 @@ filter_outliers(
 \item{data}{Matrix of numerical values containing the observations (one per
 row, with two columns for X and Y coordinates)}
 
-\item{center}{Coordinates used to order samples based on their euclidian
-distance (array of numerical values)}
+\item{center}{Coordinates used to computes the distances of the samples and
+order them (array of numerical two values, for X and Y)}
 
-\item{test}{Statistical test used. Valid options are "DIP" for unimodality
+\item{test}{Statistical test to use. Valid options are "DIP" for unimodality
 test, or "Mardia", "Kurtosis", "Skewness", "KS", "KS-adj", "Shapiro",
 "Lillie", and "Chisq" for multivariate normality test}
 
-\item{threshold}{Threshold of significance for the statistical test (default:
-0.05)}
+\item{threshold}{Threshold of significance for the statistical test (between
+0 and 1, default: 0.05)}
 
 \item{distType}{Distance metric used to order the samples. Valid options are
-"Euclidean", "MCD", "MVE", and "OGK". If empty or null, "Euclidean" will be
+"Euclidean", "MCD", "MVE", and "OGK". If empty or NULL, "Euclidean" will be
 automatically selected for unimodality tests, and "MCD" for normality
-tests.}
+tests}
 
 \item{trimmedPerIteration}{Number of samples trimmed at each iteration
-(default: 1)}
+(positive integer, default: 1)}
 
-\item{debug}{Logical value. \code{TRUE} will compute all p.values (even after
-exceeding the threshold, for plotting purpose, see \code{\link[=plot.BRIL.Filtering]{plot.BRIL.Filtering()}})}
+\item{debug}{Logical value. \code{TRUE} will compute all p.values, even after
+exceeding the threshold, for plotting purpose (see \code{\link[=plot.BRIL.Filtering]{plot.BRIL.Filtering()}})}
 
 \item{warnings}{Logical value, to display the warnings and errors caught}
 }
 \value{
 The function returns an S3 object of type \code{BRIL.Filtering}
 containing the following values:
-\item{\code{call}}{Parameters of the call to the function (i.e. \code{data}, \code{test},
+\item{\code{call}}{Parameters of the call (contains \code{data}, \code{test},
 \code{testType}, \code{center}, \code{threshold}, \code{trimmedPerIteration} and \code{distType})}
 \item{\code{distances}}{Distances of each sample from \code{data} to the \code{center}
 provided}
@@ -55,8 +55,7 @@ provided}
 plotting purpose}
 \item{\code{selected}}{Indices of the samples from \code{data} selected at the end of
 the filtering}
-\item{\code{cutoffDistance}}{Distance of the furthest inlier selected at the end
-of the filtering}
+\item{\code{cutoffDistance}}{Distance of the furthest inlier selected}
 }
 \description{
 Recursive outlier filtering based on robust distances and multinormality
@@ -65,14 +64,14 @@ tests
 \details{
 For unimodality tests parameter \code{distType} should be set to
 "Euclidean" (as the distribution might contains a large amount of
-outliers). For normality tests robust distances are preferable, based on
+outliers). For normality tests robust distances are preferable, using a
 robust estimate estimates of location and scatter ("MCD","MVE", or "OGK").
 }
 \examples{
 
 ## Example 1
 
-# illustrative data
+# Illustrative data
 XY <- rbind(
   mvtnorm::rmvnorm(300, c(0, 0), diag(2) * 3 - 1),
   mvtnorm::rmvnorm(100, c(15, 20), diag(2)),
@@ -80,29 +79,32 @@ XY <- rbind(
   mvtnorm::rmvnorm(200, c(5, 5), diag(2) * 200)
 )
 
-# compute an estimate for the center
+# Compute an estimate for the center
 center <- median_rec(XY)$median
 
-# remove non unimodal outliers from this location
+# Remove non unimodal outliers from this location
 filtering <- filter_outliers(XY, center, test = "DIP", debug = TRUE)
 print(filtering, maxDisplayed = 200)
 plot(filtering)
 
 ## Example 2
 
-# illustrative data
-XY <- rbind(mvtnorm::rmvnorm(300, c(0, 0), diag(2)*4-1.5),
-            mvtnorm::rmvnorm(150, c(5, 5), diag(2)*400))
+# Illustrative data
+XY <- rbind(
+  mvtnorm::rmvnorm(300, c(0, 0), diag(2) * 4 - 1.5),
+  mvtnorm::rmvnorm(150, c(5, 5), diag(2) * 400)
+)
 
-# compute an estimate for the center
+# Compute an estimate for the center
 center <- median_rec(XY)$median
 
-# remove non normal outliers from this location
+# Remove non normal outliers from this location
 filtering <- filter_outliers(XY, center, test = "Chisq", distType = "MVE", debug = TRUE)
 print(filtering)
 plot(filtering, asp = 1)
 
 }
 \seealso{
-\code{\link[=plot.BRIL.Filtering]{plot.BRIL.Filtering()}}, \code{\link[=print.BRIL.Filtering]{print.BRIL.Filtering()}}, \code{\link[=median_rec]{median_rec()}}, \code{\link[=median_mv]{median_mv()}}, \code{\link[=bril]{bril()}}
+\code{\link[=plot.BRIL.Filtering]{plot.BRIL.Filtering()}}, \code{\link[=print.BRIL.Filtering]{print.BRIL.Filtering()}}, \code{\link[=bril]{bril()}},
+\code{\link[=median_rec]{median_rec()}}, \code{\link[=median_mv]{median_mv()}}, \code{\link[=depth_values]{depth_values()}}
 }

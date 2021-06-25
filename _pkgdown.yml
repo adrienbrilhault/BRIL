@@ -16,9 +16,7 @@ template:
   params:
     bootswatch: cosmo
     ganalytics: UA-200250973-2
-    docsearch:
-      api_key: 4dc1937e97dc79698b3bbb06638278be
-      index_name: adrienbrilhault
+
 development:
   mode: auto
 

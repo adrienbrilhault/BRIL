@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Fix to the loading error of "rgl" package, required by "depth", with mybinder RStudio environment
+# (Error: package ‘rgl’ could not be loaded - /usr/lib/x86_64-linux-gnu/libstdc++.so.6: version `GLIBCXX_3.4.26' not found)
+
+set -e
+export LD_LIBRARY_PATH=${NB_PYTHON_PREFIX}/lib:${LD_LIBRARY_PATH}
+exec "$@"

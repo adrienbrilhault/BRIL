@@ -1,3 +1,11 @@
+# BRIL 1.0.2
+
+* Removed Search from Git Page (pkgdown feature not working)
+* Removed title metadata from jupyter notebook (causing warning)
+* Small fix to R-CMD-Check workflow to specify the path
+* Updates to package documentation
+* Fix docker error with libstdc++.so.6 library in mybinder RStudio env
+
 # BRIL 1.0.1
 
 * Added R-CMD-Check to Github workflow

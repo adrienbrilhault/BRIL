@@ -1,6 +1,6 @@
 Package: BRIL
 Title: Bootstrap and Refine Iterative Locator
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: 
     person(given = "Adrien",
            family = "Brilhault",

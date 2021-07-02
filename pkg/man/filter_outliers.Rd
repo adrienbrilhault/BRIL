@@ -2,8 +2,7 @@
 % Please edit documentation in R/filter_outliers.R
 \name{filter_outliers}
 \alias{filter_outliers}
-\title{Recursive outlier filtering based on robust distances and multinormality
-tests}
+\title{Recursive outlier filtering based on unimodality and multinormality tests}
 \usage{
 filter_outliers(
   data,
@@ -58,8 +57,7 @@ the filtering}
 \item{\code{cutoffDistance}}{Distance of the furthest inlier selected}
 }
 \description{
-Recursive outlier filtering based on robust distances and multinormality
-tests
+Recursive outlier filtering based on unimodality and multinormality tests
 }
 \details{
 For unimodality tests parameter \code{distType} should be set to

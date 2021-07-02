@@ -1,5 +1,4 @@
-#' Recursive outlier filtering based on robust distances and multinormality
-#' tests
+#' Recursive outlier filtering based on unimodality and multinormality tests
 #'
 #' @param data Matrix of numerical values containing the observations (one per
 #'   row, with two columns for X and Y coordinates)

@@ -64,6 +64,13 @@ jobs:
           do
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04", path = "./pkg"))')
+      
+      - name: Install XQuartz for macOS
+        if: runner.os == 'macOS'
+        run: |
+          wget https://github.com/XQuartz/XQuartz/releases/download/XQuartz-2.7.11/XQuartz-2.7.11.dmg
+          sudo hdiutil attach XQuartz-2.7.11.dmg
+          sudo installer -package /Volumes/XQuartz-2.7.11/XQuartz.pkg -target / 
 
       - name: Install dependencies
         run: |
@@ -71,6 +78,12 @@ jobs:
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
+      - name: Session info
+        run: |
+          options(width = 100)
+          sessionInfo()
+        shell: Rscript {0}
+        
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false

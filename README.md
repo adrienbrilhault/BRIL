@@ -1,7 +1,7 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/adrienbrilhault/BRIL/workflows/R-CMD-check/badge.svg)](https://github.com/adrienbrilhault/BRIL/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](pkg/LICENSE)
-[![Analytics](https://ga-beacon.appspot.com/UA-200250973-1/Github-Readme?pixel)](https://github.com/igrigorik/ga-beacon)
+<!-- [![Analytics](https://ga-beacon.appspot.com/UA-200250973-1/Github-Readme?pixel)](https://github.com/igrigorik/ga-beacon) -->
 <!-- badges: end -->
 # BRIL
 
@@ -20,7 +20,7 @@ To browse and test this package in an online RStudio environment, follow the lin
 
 To cite this package, please refer to:
 
-*Adrien Brilhault, Sergio Neuenschwander, and Ricardo Rios - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - Behavior Research Methods, 2021 (submitted)*
+*Adrien Brilhault, Sergio Neuenschwander, and Ricardo Rios - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - Behavior Research Methods, 2021 [(submitted)](https://arxiv.org/abs/2107.08030)*
 <br><br>
 
 
@@ -85,31 +85,34 @@ This repository, beyond the R package itself (in the folder [pkg](https://github
 
 #### Datasets
 
-The real-world datasets used in the article, consisting of eye-tracking 
-calibrations, are provided in [data/eyeTrackingCalibrations.Rdata](https://github.com/adrienbrilhault/BRIL/raw/master/data/eyeTrackingCalibrations.Rdata).
-They contain the `x` and `y` positions recorded from the eye-tracker in each trial,
-with their corresponding `metadata`, which includes the following attributes:
+The real-world datasets used in the article, consisting of eye-tracking calibrations, are provided in [data/eyeTrackingCalibrations.Rdata](https://github.com/adrienbrilhault/BRIL/raw/master/data/eyeTrackingCalibrations.Rdata), with an illustrative [video](https://www.youtube.com/watch?v=ZQzThht0VMw). They contain the `x` and `y` positions recorded from the eye-tracker in each trial, with their corresponding `metadata`, which includes the following attributes:
 
-- `session`: subject name and session identifier
-- `trial`: trial number within the session
-- `nTrials`: total number of trials in the session
-- `duration`: duration of trials in the session (in ms)
-- `target`: id of the calibration target displayed during the trial
-- `nTargets`: number of calibration targets in the session
+- `session`: subject name and session identifier,
+- `trial`: trial number within the session,
+- `nTrials`: total number of trials in the session,
+- `duration`: duration of trials in the session (in ms),
+- `target`: id of the calibration target displayed during the trial,
+- `nTargets`: number of calibration targets in the session.
 
-The table `groundTruth` finally provide the manually annotated reference 
-coordinates for each of the calibration targets in every session.
+The table `groundTruth` provides the manually annotated reference coordinates for each of the calibration targets in every session. The labelling procedure, shown in this [video](https://www.youtube.com/watch?v=10ZapuMvK1s), is described in the article, and its code available in [data/groundTruthLabeling.R](https://github.com/adrienbrilhault/BRIL/blob/master/data/groundTruthLabeling.R).
 
-The three datasets presented in the article as *Set1*, *Set2*, and *Set3* (with 
-low, medium, and high contamination) correspond to the sessions *juj011a00*, 
-*ded00800*, and *ded005a01*, respectively.
+The three datasets presented in the article as *Set1*, *Set2*, and *Set3* (with low, medium, and high contamination) correspond to the sessions *juj011a00*; *ded00800*, and *ded005a01*, respectively.
+
+#### Additional code
+
+The [benchmarks folder](https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks) of the repository contains a series of additional scripts and materials used in our study, as for instance:
+
+- The code for the benchmarks on artificial datasets, through a Monte-Carlo procedure ([BenchmarkBRIL_Artificial.R](https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/BenchmarkBRIL_Artificial.R));
+- The code for the benchmark on real-world eye-tracking datasets ([BenchmarkBRIL_EyeTracking.R](https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/BenchmarkBRIL_EyeTracking.R)), and its analysis ([BenchmarkBRIL_EyeTracking_Analysis.R](https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/BenchmarkBRIL_EyeTracking_Analysis.R));
+- The code for the detection of saccades and fixations in raw eye-tracking signals (files [FixationsDetection.R](https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/FixationsDetection.R) and [utils_fixations.R](https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/utils_fixations.R)), described in the technical report [FixationsDetection_Report.pdf](https://github.com/adrienbrilhault/BRIL/raw/master/benchmarks/FixationsDetection_Report.pdf);
+- The code for the clustering algorithms used as baseline ([utils_clustering.R](https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/utils_clustering.R)).
 
 #### Illustrative notebooks
 
-- For a demonstration on artificial data, please refer to the 
+- For a demonstration of our method with artificial data, please refer to the 
 notebook [demo_ArtificialData.ipynb](demo_ArtificialData.ipynb) 
 ( **[▶️ run binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_ArtificialData.ipynb)** )
-- For a demonstration on eye-tracking data, please refer to the
+- For a demonstration of our method with eye-tracking data, please refer to the
 notebook [demo_EyeTrackingData.ipynb](demo_EyeTrackingData.ipynb) 
 ( **[▶️ run binder](https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_EyeTrackingData.ipynb)** )
 

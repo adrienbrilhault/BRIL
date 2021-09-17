@@ -112,7 +112,7 @@ median_mv <- function(data, method = "Projection", sampleMedian = TRUE, warnings
       } else if (method %in% c("CW")) {
         result <- c(stats::median(data[, 1]), stats::median(data[, 2]))
       } else if (method == "Oja") {
-        if (sampleMedian) {
+        if (!sampleMedian) {
           result <- OjaNP::ojaMedian(data, alg = "evolutionary")
         } else {
           depths <- depth_values(data, method = method, warnings = warnings)
@@ -123,7 +123,7 @@ median_mv <- function(data, method = "Projection", sampleMedian = TRUE, warnings
           }
         }
       } else if (method == "Tukey") {
-        if (sampleMedian) {
+        if (!sampleMedian) {
           result <- depth::med(data, method = method, approx = TRUE)$median
         } else {
           depths <- depth_values(data, method = method, warnings = warnings)
@@ -134,8 +134,10 @@ median_mv <- function(data, method = "Projection", sampleMedian = TRUE, warnings
           }
         }
       } else if (method %in% c("Liu", "Spatial")) {
-        if (sampleMedian) {
-          result <- depth::med(data, method = method)$median
+        if (!sampleMedian) {
+          # result <- depth::med(data, method = method)$median
+          result <- depth_med(data, method = method)$median #quick fix
+
         } else {
           depths <- depth_values(data, method = method, warnings = warnings)
           if (all(depths == 0)) {

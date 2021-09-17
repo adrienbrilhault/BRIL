@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BRIL</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
       </span>
     </div>
 
@@ -258,10 +258,10 @@ steps (even after they exceed the selection threshold, see
 
     <p>The function returns an S3 object of type <code>BRIL</code> containing the
 following values:</p>
-<dt><code>call</code></dt><dd><p>Parameters of the call (contains <code>data</code>, <code>maxIterations</code>,
-<code>minUnassigned</code>, <code>method</code>, <code>alpha</code>, <code>testUnimodal</code>, <code>threshUnimodal</code>,
-<code>distUnimodal</code>, <code>testNormal</code>, <code>threshNormal</code>, <code>distNormal</code>,
-<code>trimmedPerFilteringIteration</code>, and <code>exitWhenUnimodal</code>)</p></dd>
+<dt><code>call</code></dt><dd><p>Parameters of the call (contains <code>data</code>,
+<code>maxIterations</code>, <code>minUnassigned</code>, <code>method</code>, <code>alpha</code>, <code>testUnimodal</code>,
+<code>threshUnimodal</code>, <code>distUnimodal</code>, <code>testNormal</code>, <code>threshNormal</code>,
+<code>distNormal</code>, <code>trimmedPerFilteringIteration</code>, and <code>exitWhenUnimodal</code>)</p></dd>
 <dt><code>iterations</code></dt><dd><p>A list with every global iteration of the algorithm,
 each containing the two filtering procedures performed: <code>filteringUnimodal</code>
 and <code>filteringNormal</code> (both being S3 object of class <code>BRIL.Filtering</code>, see
@@ -275,6 +275,11 @@ of each group (row-wise)</p></dd>
 <dt><code>mainCluster</code></dt><dd><p>Index of the group identified as main mode</p></dd>
 <dt><code>mode</code></dt><dd><p>Coordinates of the main mode</p></dd>
 
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Adrien Brilhault, Sergio Neuenschwander, and Ricardo Rios - A New
+Robust Multivariate Mode Estimator for Eye-tracking Calibration - Behavior
+Research Methods, 2021 (submitted) - <a href='https://arxiv.org/abs/2107.08030'>arXiv:2107.08030</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='plot.BRIL.html'>plot.BRIL()</a></code>, <code><a href='print.BRIL.html'>print.BRIL()</a></code>, <code><a href='filter_outliers.html'>filter_outliers()</a></code>, <code><a href='median_rec.html'>median_rec()</a></code>,
@@ -294,21 +299,21 @@ of each group (row-wise)</p></dd>
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt; =&gt; Results for bril() using method "Projection" (alpha=0.5), DIP Unimodality Test (&gt; 0.05), and Mardia Normality test (&gt; 0.05)
-#&gt;    750 samples: 3 clusters identified (sizes 311, 157, 105), and 177 samples unassigned
+#&gt;    750 samples: 3 clusters identified (sizes 311, 157, 106), and 176 samples unassigned
 #&gt; 
 #&gt; Mode:
 #&gt; [1]  0.2010784 -0.0902806
 #&gt; 
 #&gt; 
 #&gt; Clusters Sizes:
-#&gt; [1] 311 157 105
+#&gt; [1] 311 157 106
 #&gt; 
 #&gt; 
 #&gt; Clusters Centers:
 #&gt;            [,1]       [,2]
 #&gt; [1,]  0.2010784 -0.0902806
 #&gt; [2,] -9.8754989 15.0017539
-#&gt; [3,] 15.0869077 19.9320447
+#&gt; [3,] 15.0520460 19.9446651
 #&gt; 
 #&gt; 
 #&gt; Labels:
@@ -330,7 +335,7 @@ of each group (row-wise)</p></dd>
 #&gt; [556] 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1
 #&gt; [593] 3 0 0 0 0 0 0 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 3 0 0 0 0 0 0 0 0 2
 #&gt; [630] 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2
-#&gt; [667] 1 0 0 1 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 2 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0
+#&gt; [667] 1 0 0 1 0 0 0 0 0 0 0 0 0 2 0 0 0 0 0 0 0 2 0 2 0 0 0 0 0 0 0 0 3 0 0 0 0
 #&gt; [704] 0 0 0 2 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 2 0 0 0 0 0 0 0 0 0
 #&gt; [741] 0 0 2 0 0 0 0 0 3 0
 #&gt; 

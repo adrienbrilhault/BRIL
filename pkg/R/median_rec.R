@@ -28,6 +28,10 @@
 #'   \item{`iterations`}{List containing the indices from the samples of `data`
 #'   selected at each iteration}
 #'
+#' @references Adrien Brilhault, Sergio Neuenschwander, and Ricardo Rios - A New
+#'   Robust Multivariate Mode Estimator for Eye-tracking Calibration - Behavior
+#'   Research Methods, 2021 (submitted) - \href{https://arxiv.org/abs/2107.08030}{arXiv:2107.08030}
+#'
 #' @seealso [plot.BRIL.MedianRec()], [print.BRIL.MedianRec()], [median_mv()], [depth_values()], [bril()]
 #'
 #' @examples
@@ -159,9 +163,9 @@ median_rec <- function(data, method = "Projection", alpha = 0.5, maxIterations =
         }
       )
 
-      if (is.null(robustScatter)) {
+      if (is.null(robustScatter) || length(robustScatter$best) > max(minSampleSize, floor(nbPoints * (1 - alpha)))) {
         if (warnings) {
-          warning("Exiting median_rec() after ", iterationNB, "iterations (", nbPoints, " samples left)")
+          warning("Exiting median_rec() after ", iterationNB, " iterations (", nbPoints, " samples left)")
         }
         nbPoints <- 0
         break

@@ -420,7 +420,7 @@ test_multinormality <- function(values, test = "Mardia", threshold = 0.05, data,
       } else if (test == "Skewness") {
         p.value <- ICS::mvnorm.skew.test(data)$p.value
       } else if (test == "Chisq") {
-        p.value <- stats::ks.test(stats::mahalanobis(data, center, stats::cov(data), tol = 1e-20), "pchisq", df = 2)$p.value
+        p.value <- stats::ks.test(stats::mahalanobis(data, center, stats::cov(data), tol = 1e-8), "pchisq", df = 2)$p.value
       } else if (test == "Mardia") {
         p.value <- ICS::mvnorm.kur.test(data, method = "integration")$p.value
         if (p.value > threshold) {
@@ -672,7 +672,7 @@ plot.BRIL.Filtering <- function(x, contents = c("p.values", "scatterplot", "dist
       }
       if (showCenter == TRUE) {
         points(x$call$center[1], x$call$center[2],
-                         col = colCenter, pch = 3, lwd = 2
+               col = colCenter, pch = 3, lwd = 2
         )
       }
 

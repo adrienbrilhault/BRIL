@@ -1,3 +1,6 @@
+
+suppressPackageStartupMessages(require("CompQuadForm", quietly = TRUE))
+
 #' Bootstrap and Refine Iterative Locator
 #'
 #' Robust Estimate of Mode in Multivariate Distribution
@@ -46,10 +49,10 @@
 #'
 #' @return The function returns an S3 object of type `BRIL` containing the
 #'   following values:
-#'   \item{`call`}{Parameters of the call (contains `data`, `maxIterations`,
-#'   `minUnassigned`, `method`, `alpha`, `testUnimodal`, `threshUnimodal`,
-#'   `distUnimodal`, `testNormal`, `threshNormal`, `distNormal`,
-#'   `trimmedPerFilteringIteration`, and `exitWhenUnimodal`)}
+#'   \item{`call`}{Parameters of the call (contains `data`,
+#'   `maxIterations`, `minUnassigned`, `method`, `alpha`, `testUnimodal`,
+#'   `threshUnimodal`, `distUnimodal`, `testNormal`, `threshNormal`,
+#'   `distNormal`, `trimmedPerFilteringIteration`, and `exitWhenUnimodal`)}
 #'   \item{`iterations`}{A list with every global iteration of the algorithm,
 #'   each containing the two filtering procedures performed: `filteringUnimodal`
 #'   and `filteringNormal` (both being S3 object of class `BRIL.Filtering`, see
@@ -62,6 +65,10 @@
 #'   \item{`clustersSizes`}{Array with the number of samples in each group}
 #'   \item{`mainCluster`}{Index of the group identified as main mode}
 #'   \item{`mode`}{Coordinates of the main mode}
+#'
+#' @references Adrien Brilhault, Sergio Neuenschwander, and Ricardo Rios - A New
+#'   Robust Multivariate Mode Estimator for Eye-tracking Calibration - Behavior
+#'   Research Methods, 2021 (submitted) - \href{https://arxiv.org/abs/2107.08030}{arXiv:2107.08030}
 #'
 #' @seealso [plot.BRIL()], [print.BRIL()], [filter_outliers()], [median_rec()],
 #'   [median_mv()], [depth_values()]
@@ -97,6 +104,7 @@ bril <- function(data, maxIterations = NULL, minUnassigned = 0.1, method = "Proj
                  trimmedPerFilteringIteration = 1, exitWhenUnimodal = FALSE,
                  debug = FALSE, warnings = FALSE) {
 
+  DEV_DEBUG <- FALSE
 
   ######## Check parameters & initialize
 
@@ -227,9 +235,15 @@ bril <- function(data, maxIterations = NULL, minUnassigned = 0.1, method = "Proj
          (sum(output$labels == 0) > max(minSampleSize, minUnassigned * nrow(data)))) {
     unassignedIndices <- which(output$labels == 0)
 
+    if (DEV_DEBUG)
+      cat("BRIL - Iteration",iterationNB, "(nb samples:",nrow(output$call$data),"- unprocessed:",length(unassignedIndices),"\n")
+
     ## Bootstrap : compute first estimate
 
     bootstrapEstimate <- median_rec(data[unassignedIndices, ], method = method, alpha = alpha, warnings = warnings)$median
+
+    if (DEV_DEBUG)
+      cat("* Bootstrap estimate (median_rec): ",bootstrapEstimate,"\n")
 
     ## Refine estimate
 
@@ -241,6 +255,9 @@ bril <- function(data, maxIterations = NULL, minUnassigned = 0.1, method = "Proj
     )
     output$iterations[[iterationNB]] <- list("filteringUnimodal" = filteringUnimodal)
     unimodalIndices <- unassignedIndices[filteringUnimodal$selected]
+
+    if (DEV_DEBUG)
+      cat("* Filtering unimodal:", length(filteringUnimodal$selected), "selected","\n")
 
     # If the current distribution, before any filtering, was already unimodal,
     # terminate the overall recursive search now or at the end of this iteration
@@ -259,6 +276,9 @@ bril <- function(data, maxIterations = NULL, minUnassigned = 0.1, method = "Proj
         data[unimodalIndices, ], method = method, alpha = alpha, warnings = warnings)$median
     }
 
+    if (DEV_DEBUG)
+      cat("* Adjusted center:", bootstrapEstimate,"\n")
+
     # Filter furthest outliers until reaching a normal subset
     filteringNormal <- filter_outliers(
       data[unimodalIndices, ],
@@ -270,6 +290,11 @@ bril <- function(data, maxIterations = NULL, minUnassigned = 0.1, method = "Proj
 
     # Estimate the center of this group (refined estimate)
     center <- colMeans(data[normalIndices, ])
+
+    if (DEV_DEBUG) {
+      cat("* Filtering normal:", length(filteringNormal$selected), "selected","\n")
+      cat("* Cluster final center:", center,"\n")
+    }
 
     # Update the groups structures
     output$labels[normalIndices] <- iterationNB

@@ -1,6 +1,6 @@
 Package: BRIL
 Title: Bootstrap and Refine Iterative Locator
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: 
     person(given = "Adrien",
            family = "Brilhault",
@@ -17,7 +17,8 @@ Description: The BRIL algorithm estimates the main mode of bivariate distributio
   multinormality tests.
   - ITERATE: after removing the samples selected in the REFINE step from the global 
   distribution, the same process is reapplied, the first mode corresponding to the 
-  iteration with the largest number of samples.    
+  iteration with the largest number of samples.
+  For more details, consult the publication <arXiv:2107.08030>.
 Depends: 
     R (>= 3.5.0)
 Imports:
@@ -32,7 +33,8 @@ Imports:
 	nortest,
 	ICS,
 	graphics,
-	grDevices
+	grDevices,
+	CompQuadForm
 Suggests:
   mvtnorm
 License: GPL-3 | file LICENSE

@@ -1,3 +1,11 @@
+# BRIL 1.0.3
+
+* Fixed bug with MVE-based recursive median which could loop indefinitely
+* Fixed bug with Spatial depth median from package "depth"
+* Fixed bug with Sample Median and Multivariate Median being inverted in "median_mv()"
+* Added references to documentation
+* Added benchmarks code, and data labeling procedure to the repository
+
 # BRIL 1.0.2
 
 * Removed Search from Git Page (pkgdown feature not working)

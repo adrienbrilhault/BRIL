@@ -82,10 +82,10 @@ steps (even after they exceed the selection threshold, see
 \value{
 The function returns an S3 object of type \code{BRIL} containing the
 following values:
-\item{\code{call}}{Parameters of the call (contains \code{data}, \code{maxIterations},
-\code{minUnassigned}, \code{method}, \code{alpha}, \code{testUnimodal}, \code{threshUnimodal},
-\code{distUnimodal}, \code{testNormal}, \code{threshNormal}, \code{distNormal},
-\code{trimmedPerFilteringIteration}, and \code{exitWhenUnimodal})}
+\item{\code{call}}{Parameters of the call (contains \code{data},
+\code{maxIterations}, \code{minUnassigned}, \code{method}, \code{alpha}, \code{testUnimodal},
+\code{threshUnimodal}, \code{distUnimodal}, \code{testNormal}, \code{threshNormal},
+\code{distNormal}, \code{trimmedPerFilteringIteration}, and \code{exitWhenUnimodal})}
 \item{\code{iterations}}{A list with every global iteration of the algorithm,
 each containing the two filtering procedures performed: \code{filteringUnimodal}
 and \code{filteringNormal} (both being S3 object of class \code{BRIL.Filtering}, see
@@ -125,6 +125,11 @@ plot(res, contents = "iterations", asp = 1)
 
 # See ?plot.BRIL() for other plotting examples
 
+}
+\references{
+Adrien Brilhault, Sergio Neuenschwander, and Ricardo Rios - A New
+Robust Multivariate Mode Estimator for Eye-tracking Calibration - Behavior
+Research Methods, 2021 (submitted) - \href{https://arxiv.org/abs/2107.08030}{arXiv:2107.08030}
 }
 \seealso{
 \code{\link[=plot.BRIL]{plot.BRIL()}}, \code{\link[=print.BRIL]{print.BRIL()}}, \code{\link[=filter_outliers]{filter_outliers()}}, \code{\link[=median_rec]{median_rec()}},

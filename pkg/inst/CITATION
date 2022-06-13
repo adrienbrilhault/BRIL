@@ -4,9 +4,8 @@ citEntry(
   entry    = "Article",
   title    = "A New Robust Multivariate Mode Estimator for Eye-tracking Calibration",
   author   = personList(person("Adrien", "Brilhault"),person("Sergio", "Neuenschwander"),person("Ricardo", "Rios")),
-  journal  = "Behavior Research Methods (submitted)",
-  year     = 2021,
-  url      = "https://arxiv.org/abs/2107.08030",
-  note     = "Unpublished",
-  textVersion = "Adrien Brilhault, Sergio Neuenschwander, and Ricardo Rios - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - Behavior Research Methods, 2021 (submitted)"
+  journal  = "Behavior Research Methods",
+  year     = 2022,
+  url      = "https://rdcu.be/cI9Pf",
+  textVersion = "Adrien Brilhault, Sergio Neuenschwander, and Ricardo Rios - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - Behavior Research Methods, 2022"
 )

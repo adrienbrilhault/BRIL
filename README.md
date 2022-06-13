@@ -20,7 +20,7 @@ To browse and test this package in an online RStudio environment, follow the lin
 
 To cite this package, please refer to:
 
-*Adrien Brilhault, Sergio Neuenschwander, and Ricardo Rios - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - Behavior Research Methods, 2021 [(submitted)](https://arxiv.org/abs/2107.08030)*
+*Adrien Brilhault, Sergio Neuenschwander, and Ricardo Rios - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - [Behavior Research Methods, 2022](https://rdcu.be/cI9Pf)*
 <br><br>
 
 
@@ -38,6 +38,17 @@ using the `install_github` function from
 
 ```r
 remotes::install_github("adrienbrilhault/BRIL", subdir = "pkg")
+```
+
+<br>
+*Note: As of May 2022, the
+[OjaNP](https://cran.r-project.org/web/packages/OjaNP/) package - one of
+of BRIC's dependencies - has been removed from the main CRAN repository.
+If missing, install it manually with the following command, and then launch the BRIC
+package installation again:*
+
+``` r
+remotes::install_github("cran/OjaNP", subdir = "pkg")
 ```
 <br>
 
@@ -81,7 +92,7 @@ plot(res)
 
 ### Complementary code and data
 
-This repository, beyond the R package itself (in the folder [pkg](https://github.com/adrienbrilhault/BRIL/blob/master/pkg)), provides the datasets et complementary materials related to the article *"Brilhault A, Neuenschwander S, Rios R - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - 2021"*
+This repository, beyond the R package itself (in the folder [pkg](https://github.com/adrienbrilhault/BRIL/blob/master/pkg)), provides the datasets et complementary materials related to the article *"Brilhault A, Neuenschwander S, Rios R - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - 2022"*
 
 #### Datasets
 

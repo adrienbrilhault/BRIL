@@ -1,3 +1,9 @@
+# BRIL 1.0.4
+
+* Fixed bug in depth_values() when parameter `u` is provided as dataframe
+* Update article reference (Behaviour Research Method, 2022)
+* Add install command for OjaNP (after being removed from Cran)
+
 # BRIL 1.0.3
 
 * Fixed bug with MVE-based recursive median which could loop indefinitely

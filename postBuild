@@ -1,1 +1,2 @@
+Rscript -e "remotes::install_github('cran/OjaNP')"
 Rscript -e "remotes::install_github('adrienbrilhault/BRIL', subdir = 'pkg')"

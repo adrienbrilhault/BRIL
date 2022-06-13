@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BRIL</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
       </span>
     </div>
 
@@ -97,7 +97,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Notebooks
      
     <span class="caret"></span>
@@ -139,15 +139,28 @@
       <small>Source: <a href='https://github.com/adrienbrilhault/BRIL/blob/master/pkg/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="bril-104" class="section level1">
+<h1 class="page-header" data-toc-text="1.0.4">
+<a href="#bril-104" class="anchor"></a>BRIL 1.0.4</h1>
+<ul>
+<li>Fixed bug in depth_values() when parameter <code>u</code> is
+provided as dataframe</li>
+<li>Update article reference (Behaviour Research Method, 2022)</li>
+<li>Add install command for OjaNP (after being removed from Cran)</li>
+</ul>
+</div>
     <div id="bril-103" class="section level1">
 <h1 class="page-header" data-toc-text="1.0.3">
 <a href="#bril-103" class="anchor"></a>BRIL 1.0.3</h1>
 <ul>
-<li>Fixed bug with MVE-based recursive median which could loop indefinitely</li>
+<li>Fixed bug with MVE-based recursive median which could loop
+indefinitely</li>
 <li>Fixed bug with Spatial depth median from package “depth”</li>
-<li>Fixed bug with Sample Median and Multivariate Median being inverted in “median_mv()”</li>
+<li>Fixed bug with Sample Median and Multivariate Median being inverted
+in “median_mv()”</li>
 <li>Added references to documentation</li>
-<li>Added benchmarks code, and data labeling procedure to the repository</li>
+<li>Added benchmarks code, and data labeling procedure to the
+repository</li>
 </ul>
 </div>
     <div id="bril-102" class="section level1">
@@ -158,7 +171,8 @@
 <li>Removed title metadata from jupyter notebook (causing warning)</li>
 <li>Small fix to R-CMD-Check workflow to specify the path</li>
 <li>Updates to package documentation</li>
-<li>Fix docker error with libstdc++.so.6 library in mybinder RStudio env</li>
+<li>Fix docker error with libstdc++.so.6 library in mybinder RStudio
+env</li>
 </ul>
 </div>
     <div id="bril-101" class="section level1">
@@ -180,7 +194,8 @@
 <li>switched figures format to SVG</li>
 </ul>
 </li>
-<li>Added a <code>NEWS.md</code> file to track changes to the package</li>
+<li>Added a <code>NEWS.md</code> file to track changes to the
+package</li>
 </ul>
 </div>
   </div>

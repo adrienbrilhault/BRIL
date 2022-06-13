@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">BRIL</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
       </span>
     </div>
 
@@ -53,7 +53,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Notebooks
      
     <span class="caret"></span>
@@ -88,7 +88,7 @@
 
       
 
-      </header><script src="demo_ArtificialData_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
+      </header><script src="demo_ArtificialData_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>BRIL algorithm applied to artificial data</h1>
@@ -102,20 +102,29 @@
     
     
 <p><br></p>
-<p>This notebook presents the application of the BRIL algorithm to artificial distributions, as complementary material of the article :</p>
-<p><em>Brilhault A, Neuenschwander S, Rios RA, “A New Robust Multivariate Mode Estimator for Eye-tracking Calibration”, 2021, Behavior Research Methods <a href="https://arxiv.org/abs/2107.08030">(submitted)</a></em></p>
+<p>This notebook presents the application of the BRIL algorithm to
+artificial distributions, as complementary material of the article :</p>
+<p><em>Brilhault A, Neuenschwander S, Rios RA, “A New Robust
+Multivariate Mode Estimator for Eye-tracking Calibration”, 2021,
+Behavior Research Methods <a href="https://arxiv.org/abs/2107.08030">(submitted)</a></em></p>
 <p>To run this notebook interactively, follow the link below: <a href="https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_ArtificialData.ipynb"><img src="https://mybinder.org/badge_logo.svg" alt="Binder"></a></p>
 <div id="requirements" class="section level2">
 <h2 class="hasAnchor">
 <a href="#requirements" class="anchor"></a>Requirements</h2>
-<p>The following R packages are required for the execution of the notebook:</p>
+<p>The following R packages are required for the execution of the
+notebook:</p>
 <ul>
 <li>
-<a href="https://ggplot2.tidyverse.org/">ggplot2</a> (install using the command <code>install.package("ggplot2")</code>)</li>
+<a href="https://ggplot2.tidyverse.org/">ggplot2</a> (install using
+the command <code>install.package("ggplot2")</code>)</li>
 <li>
-<a href="https://cran.r-project.org/package=mvtnorm">mvtnorm</a> (install using the command <code>install.package("mvtnorm")</code>)</li>
+<a href="https://cran.r-project.org/package=mvtnorm">mvtnorm</a>
+(install using the command <code>install.package("mvtnorm")</code>)</li>
 <li>
-<a href="https://github.com/adrienbrilhault/BRIL">BRIL</a> (first install the package <a href="https://github.com/r-lib/remotes">remotes</a> if missing: <code>install.package("remotes")</code>, then the BRIL package with <code><a href="https://remotes.r-lib.org/reference/install_github.html">remotes::install_github("adrienbrilhault/BRIL", subdir = "pkg")</a></code>)</li>
+<a href="https://github.com/adrienbrilhault/BRIL">BRIL</a> (first
+install the package <a href="https://github.com/r-lib/remotes">remotes</a> if missing:
+<code>install.package("remotes")</code>, then the BRIL package with
+<code><a href="https://remotes.r-lib.org/reference/install_github.html">remotes::install_github("adrienbrilhault/BRIL", subdir = "pkg")</a></code>)</li>
 </ul>
 <p>Once installed, load the libraries.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -127,7 +136,8 @@
 <div id="generate-an-artificial-distribution" class="section level2">
 <h2 class="hasAnchor">
 <a href="#generate-an-artificial-distribution" class="anchor"></a>Generate an artificial distribution</h2>
-<p>Draw a compound distribution of bivariate normals and uniform noise based on the parameters below:</p>
+<p>Draw a compound distribution of bivariate normals and uniform noise
+based on the parameters below:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
 
@@ -203,7 +213,8 @@
 <div id="bril---bootstrap" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bril---bootstrap" class="anchor"></a>BRIL - Bootstrap</h2>
-<p><em>Compute a first estimate of central tendency through recursive trimming of low-depth samples.</em></p>
+<p><em>Compute a first estimate of central tendency through recursive
+trimming of low-depth samples.</em></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">firstEstimate</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/median_rec.html">median_rec</a></span><span class="op">(</span><span class="va">samples</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, method <span class="op">=</span> <span class="st">"Spatial"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>
 
@@ -214,7 +225,10 @@
 <div id="bril---refine" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bril---refine" class="anchor"></a>BRIL - Refine</h2>
-<p><em>Improve the precision of the estimate by two filtering processes, the first based on euclidean distances and a test of unimodality. The second on robust distances and a test of multivariate normality.</em></p>
+<p><em>Improve the precision of the estimate by two filtering processes,
+the first based on euclidean distances and a test of unimodality. The
+second on robust distances and a test of multivariate
+normality.</em></p>
 <div id="filtering-1--unimodal-filtering" class="section level4">
 <h4 class="hasAnchor">
 <a href="#filtering-1--unimodal-filtering" class="anchor"></a>Filtering 1- Unimodal Filtering</h4>
@@ -262,7 +276,9 @@
 <div id="bril---iterate" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bril---iterate" class="anchor"></a>BRIL - Iterate</h2>
-<p><em>Remove the final subset selected at the end of REFINE from the global distribution, and re-iterate the same procedure to identity other groups that might have a higher cardinality.</em></p>
+<p><em>Remove the final subset selected at the end of REFINE from the
+global distribution, and re-iterate the same procedure to identity other
+groups that might have a higher cardinality.</em></p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/bril.html">bril</a></span><span class="op">(</span><span class="va">samples</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>,
     method <span class="op">=</span> <span class="st">"Spatial"</span>, testUnimodal <span class="op">=</span> <span class="st">"DIP"</span>, threshUnimodal <span class="op">=</span> <span class="fl">0.05</span>,
@@ -316,7 +332,9 @@
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">nbClusters</span> <span class="op">&gt;=</span> <span class="fl">3</span><span class="op">)</span>
       <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">iterations</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">filteringNormal</span>, asp <span class="op">=</span> <span class="fl">1</span>, xlim <span class="op">=</span> <span class="va">xlim</span>, ylim <span class="op">=</span> <span class="va">ylim</span><span class="op">)</span></code></pre></div>
 <p><img src="demo_ArtificialData_files/figure-html/unnamed-chunk-16-1.svg" width="700.8"></p>
-<p><br><strong><em>… until starting an iteration with a distribution being unimodal before any outliers filtering, which will terminate the search.</em></strong></p>
+<p><br><strong><em>… until starting an iteration with a distribution
+being unimodal before any outliers filtering, which will terminate the
+search.</em></strong></p>
 </div>
 </div>
 <div id="final-result-of-the-algorithm" class="section level2">

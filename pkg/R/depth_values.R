@@ -83,7 +83,7 @@ depth_values <- function(data, u = NULL, method = "Projection", warnings = FALSE
   }
 
   if (is.data.frame(u)) {
-    data <- as.matrix(u)
+    u <- as.matrix(u)
   }
   if (is.null(u)) {
     u <- data

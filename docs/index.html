@@ -22,7 +22,7 @@
   - ITERATE: after removing the samples selected in the REFINE step from the global 
   distribution, the same process is reapplied, the first mode corresponding to the 
   iteration with the largest number of samples.
-  For more details, consult the publication &lt;arXiv:2107.08030&gt;.">
+  For more details, consult the publication &lt;https://rdcu.be/cI9Pf&gt;.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -47,7 +47,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">BRIL</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.4</span>
       </span>
     </div>
 
@@ -63,7 +63,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Notebooks
      
     <span class="caret"></span>
@@ -105,36 +105,59 @@
 <div id="bril" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#bril" class="anchor"></a>BRIL</h1></div>
-<p><a href="https://github.com/adrienbrilhault/BRIL">BRIL</a> (Bootstrap and Refine Iterative Locator) is an <a href="https://www.r-project.org">R</a> package for multivariate mode estimate.</p>
-<p>The BRIL algorithm estimate the main mode through three principal steps:</p>
+<p><a href="https://github.com/adrienbrilhault/BRIL">BRIL</a> (Bootstrap
+and Refine Iterative Locator) is an <a href="https://www.r-project.org">R</a> package for multivariate mode
+estimate.</p>
+<p>The BRIL algorithm estimate the main mode through three principal
+steps:</p>
 <ul>
 <li>
-<em>BOOTSTRAP:</em> a recursive depth (or convex body minimizers) trimming to locate a first estimate.</li>
+<em>BOOTSTRAP:</em> a recursive depth (or convex body minimizers)
+trimming to locate a first estimate.</li>
 <li>
-<em>REFINE:</em> a two-pass outliers filtering, the first relying on euclidean distances to the first estimate and unimodality tests, the second on robust distances and multinormality tests.</li>
+<em>REFINE:</em> a two-pass outliers filtering, the first relying on
+euclidean distances to the first estimate and unimodality tests, the
+second on robust distances and multinormality tests.</li>
 <li>
-<em>ITERATE:</em> after removing the samples selected in the REFINE step from the global distribution, the same process is reapplied, the first mode corresponding to the iteration with the largest number of samples.</li>
+<em>ITERATE:</em> after removing the samples selected in the REFINE
+step from the global distribution, the same process is reapplied, the
+first mode corresponding to the iteration with the largest number of
+samples.</li>
 </ul>
-<p>To browse and test this package in an online RStudio environment, follow the link below:</p>
+<p>To browse and test this package in an online RStudio environment,
+follow the link below:</p>
 <p><a href="https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?urlpath=rstudio"><img src="https://tinyurl.com/badgeRStudio" alt="Binder"></a></p>
 <p>To cite this package, please refer to:</p>
-<p><em>Adrien Brilhault, Sergio Neuenschwander, and Ricardo Rios - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - Behavior Research Methods, 2021 <a href="https://arxiv.org/abs/2107.08030">(submitted)</a></em> <br><br></p>
+<p><em>Adrien Brilhault, Sergio Neuenschwander, and Ricardo Rios - A New
+Robust Multivariate Mode Estimator for Eye-tracking Calibration - <a href="https://rdcu.be/cI9Pf">Behavior Research Methods, 2022</a></em>
+<br><br></p>
 <div id="installation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h3>
-<p>To install BRIL from the <a href="https://github.com/adrienbrilhault/BRIL">GitHub repository</a>, add first the <a href="https://github.com/r-lib/remotes">remotes</a> package if missing.</p>
+<p>To install BRIL from the <a href="https://github.com/adrienbrilhault/BRIL">GitHub repository</a>,
+add first the <a href="https://github.com/r-lib/remotes">remotes</a>
+package if missing.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></code></pre></div>
-<p>Then proceed to the installation of the BRIL package and its dependencies using the <code>install_github</code> function from <a href="https://github.com/r-lib/remotes">remotes</a>.</p>
+<p>Then proceed to the installation of the BRIL package and its
+dependencies using the <code>install_github</code> function from <a href="https://github.com/r-lib/remotes">remotes</a>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"adrienbrilhault/BRIL"</span>, subdir <span class="op">=</span> <span class="st">"pkg"</span><span class="op">)</span></code></pre></div>
+<p><br><em>Note: As of May 2022, the <a href="https://cran.r-project.org/web/packages/OjaNP/">OjaNP</a> package
+- one of of BRIC’s dependencies - has been removed from the main CRAN
+repository. If missing, install it manually with the following command,
+and then launch the BRIC package installation again:</em></p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"cran/OjaNP"</span>, subdir <span class="op">=</span> <span class="st">"pkg"</span><span class="op">)</span></code></pre></div>
 <p><br></p>
 </div>
 <div id="documentation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#documentation" class="anchor"></a>Documentation</h3>
-<p>The package documentation is available in <a href="https://github.com/adrienbrilhault/BRIL/raw/master/BRIL-manual.pdf">BRIL-manual.pdf</a>, at <a href="https://adrienbrilhault.github.io/BRIL/">adrienbrilhault.github.io/BRIL/</a>, and directly in the R environment with the help commands.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<p>The package documentation is available in <a href="https://github.com/adrienbrilhault/BRIL/raw/master/BRIL-manual.pdf">BRIL-manual.pdf</a>,
+at <a href="https://adrienbrilhault.github.io/BRIL/">adrienbrilhault.github.io/BRIL/</a>,
+and directly in the R environment with the help commands.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># main documentation page</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/help.html">help</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"BRIL"</span><span class="op">)</span>
 
@@ -145,8 +168,11 @@
 <div id="example" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h3>
-<p>If missing, install the <a href="https://CRAN.R-project.org/package=mvtnorm">mvtnorm</a> package from CRAN with the command <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("mvtnorm")</a></code>. Then try the following example, which creates a sample multivariate mixture, and estimates its main mode.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>If missing, install the <a href="https://CRAN.R-project.org/package=mvtnorm">mvtnorm</a> package
+from CRAN with the command <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("mvtnorm")</a></code>.
+Then try the following example, which creates a sample multivariate
+mixture, and estimates its main mode.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://adrienbrilhault.github.io/BRIL/">BRIL</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://mvtnorm.R-forge.R-project.org">mvtnorm</a></span><span class="op">)</span>
 
@@ -166,11 +192,19 @@
 <div id="complementary-code-and-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#complementary-code-and-data" class="anchor"></a>Complementary code and data</h3>
-<p>This repository, beyond the R package itself (in the folder <a href="https://github.com/adrienbrilhault/BRIL/blob/master/pkg">pkg</a>), provides the datasets et complementary materials related to the article <em>“Brilhault A, Neuenschwander S, Rios R - A New Robust Multivariate Mode Estimator for Eye-tracking Calibration - 2021”</em></p>
+<p>This repository, beyond the R package itself (in the folder <a href="https://github.com/adrienbrilhault/BRIL/blob/master/pkg">pkg</a>),
+provides the datasets et complementary materials related to the article
+<em>“Brilhault A, Neuenschwander S, Rios R - A New Robust Multivariate
+Mode Estimator for Eye-tracking Calibration - 2022”</em></p>
 <div id="datasets" class="section level4">
 <h4 class="hasAnchor">
 <a href="#datasets" class="anchor"></a>Datasets</h4>
-<p>The real-world datasets used in the article, consisting of eye-tracking calibrations, are provided in <a href="https://github.com/adrienbrilhault/BRIL/raw/master/data/eyeTrackingCalibrations.Rdata">data/eyeTrackingCalibrations.Rdata</a>, with an illustrative <a href="https://www.youtube.com/watch?v=ZQzThht0VMw">video</a>. They contain the <code>x</code> and <code>y</code> positions recorded from the eye-tracker in each trial, with their corresponding <code>metadata</code>, which includes the following attributes:</p>
+<p>The real-world datasets used in the article, consisting of
+eye-tracking calibrations, are provided in <a href="https://github.com/adrienbrilhault/BRIL/raw/master/data/eyeTrackingCalibrations.Rdata">data/eyeTrackingCalibrations.Rdata</a>,
+with an illustrative <a href="https://www.youtube.com/watch?v=ZQzThht0VMw">video</a>. They
+contain the <code>x</code> and <code>y</code> positions recorded from
+the eye-tracker in each trial, with their corresponding
+<code>metadata</code>, which includes the following attributes:</p>
 <ul>
 <li>
 <code>session</code>: subject name and session identifier,</li>
@@ -179,23 +213,39 @@
 <li>
 <code>nTrials</code>: total number of trials in the session,</li>
 <li>
-<code>duration</code>: duration of trials in the session (in ms),</li>
+<code>duration</code>: duration of trials in the session (in
+ms),</li>
 <li>
-<code>target</code>: id of the calibration target displayed during the trial,</li>
+<code>target</code>: id of the calibration target displayed during
+the trial,</li>
 <li>
-<code>nTargets</code>: number of calibration targets in the session.</li>
+<code>nTargets</code>: number of calibration targets in the
+session.</li>
 </ul>
-<p>The table <code>groundTruth</code> provides the manually annotated reference coordinates for each of the calibration targets in every session. The labelling procedure, shown in this <a href="https://www.youtube.com/watch?v=10ZapuMvK1s">video</a>, is described in the article, and its code available in <a href="https://github.com/adrienbrilhault/BRIL/blob/master/data/groundTruthLabeling.R">data/groundTruthLabeling.R</a>.</p>
-<p>The three datasets presented in the article as <em>Set1</em>, <em>Set2</em>, and <em>Set3</em> (with low, medium, and high contamination) correspond to the sessions <em>juj011a00</em>; <em>ded00800</em>, and <em>ded005a01</em>, respectively.</p>
+<p>The table <code>groundTruth</code> provides the manually annotated
+reference coordinates for each of the calibration targets in every
+session. The labelling procedure, shown in this <a href="https://www.youtube.com/watch?v=10ZapuMvK1s">video</a>, is
+described in the article, and its code available in <a href="https://github.com/adrienbrilhault/BRIL/blob/master/data/groundTruthLabeling.R">data/groundTruthLabeling.R</a>.</p>
+<p>The three datasets presented in the article as <em>Set1</em>,
+<em>Set2</em>, and <em>Set3</em> (with low, medium, and high
+contamination) correspond to the sessions <em>juj011a00</em>;
+<em>ded00800</em>, and <em>ded005a01</em>, respectively.</p>
 </div>
 <div id="additional-code" class="section level4">
 <h4 class="hasAnchor">
 <a href="#additional-code" class="anchor"></a>Additional code</h4>
-<p>The <a href="https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks">benchmarks folder</a> of the repository contains a series of additional scripts and materials used in our study, as for instance:</p>
+<p>The <a href="https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks">benchmarks
+folder</a> of the repository contains a series of additional scripts and
+materials used in our study, as for instance:</p>
 <ul>
-<li>The code for the benchmarks on artificial datasets, through a Monte-Carlo procedure (<a href="https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/BenchmarkBRIL_Artificial.R">BenchmarkBRIL_Artificial.R</a>);</li>
-<li>The code for the benchmark on real-world eye-tracking datasets (<a href="https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/BenchmarkBRIL_EyeTracking.R">BenchmarkBRIL_EyeTracking.R</a>), and its analysis (<a href="https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/BenchmarkBRIL_EyeTracking_Analysis.R">BenchmarkBRIL_EyeTracking_Analysis.R</a>);</li>
-<li>The code for the detection of saccades and fixations in raw eye-tracking signals (files <a href="https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/FixationsDetection.R">FixationsDetection.R</a> and <a href="https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/utils_fixations.R">utils_fixations.R</a>), described in the technical report <a href="https://github.com/adrienbrilhault/BRIL/raw/master/benchmarks/FixationsDetection_Report.pdf">FixationsDetection_Report.pdf</a>;</li>
+<li>The code for the benchmarks on artificial datasets, through a
+Monte-Carlo procedure (<a href="https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/BenchmarkBRIL_Artificial.R">BenchmarkBRIL_Artificial.R</a>);</li>
+<li>The code for the benchmark on real-world eye-tracking datasets (<a href="https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/BenchmarkBRIL_EyeTracking.R">BenchmarkBRIL_EyeTracking.R</a>),
+and its analysis (<a href="https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/BenchmarkBRIL_EyeTracking_Analysis.R">BenchmarkBRIL_EyeTracking_Analysis.R</a>);</li>
+<li>The code for the detection of saccades and fixations in raw
+eye-tracking signals (files <a href="https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/FixationsDetection.R">FixationsDetection.R</a>
+and <a href="https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/utils_fixations.R">utils_fixations.R</a>),
+described in the technical report <a href="https://github.com/adrienbrilhault/BRIL/raw/master/benchmarks/FixationsDetection_Report.pdf">FixationsDetection_Report.pdf</a>;</li>
 <li>The code for the clustering algorithms used as baseline (<a href="https://github.com/adrienbrilhault/BRIL/blob/master/benchmarks/utils_clustering.R">utils_clustering.R</a>).</li>
 </ul>
 </div>
@@ -203,10 +253,17 @@
 <h4 class="hasAnchor">
 <a href="#illustrative-notebooks" class="anchor"></a>Illustrative notebooks</h4>
 <ul>
-<li>For a demonstration of our method with artificial data, please refer to the notebook <a href="articles/demo_ArtificialData.html">demo_ArtificialData</a> ( <strong><a href="https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_ArtificialData.ipynb">▶️ run binder</a></strong> )</li>
-<li>For a demonstration of our method with eye-tracking data, please refer to the notebook <a href="articles/demo_EyeTrackingData.html">demo_EyeTrackingData</a> ( <strong><a href="https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_EyeTrackingData.ipynb">▶️ run binder</a></strong> )</li>
+<li>For a demonstration of our method with artificial data, please refer
+to the notebook <a href="articles/demo_ArtificialData.html">demo_ArtificialData</a> (
+<strong><a href="https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_ArtificialData.ipynb">▶️
+run binder</a></strong> )</li>
+<li>For a demonstration of our method with eye-tracking data, please
+refer to the notebook <a href="articles/demo_EyeTrackingData.html">demo_EyeTrackingData</a> (
+<strong><a href="https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?filepath=demo_EyeTrackingData.ipynb">▶️
+run binder</a></strong> )</li>
 </ul>
-<p>To run these notebooks interactively in JupyterLab, follow this link:</p>
+<p>To run these notebooks interactively in JupyterLab, follow this
+link:</p>
 <p><a href="https://mybinder.org/v2/gh/adrienbrilhault/BRIL/HEAD?urlpath=lab"><img src="https://tinyurl.com/badgeJupyterLab" alt="Binder"></a></p>
 </div>
 </div>

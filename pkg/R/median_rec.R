@@ -30,7 +30,7 @@
 #'
 #' @references Adrien Brilhault, Sergio Neuenschwander, and Ricardo Rios - A New
 #'   Robust Multivariate Mode Estimator for Eye-tracking Calibration - Behavior
-#'   Research Methods, 2021 (submitted) - \href{https://arxiv.org/abs/2107.08030}{arXiv:2107.08030}
+#'   Research Methods, 2022 - \href{https://rdcu.be/cI9Pf}{rdcu.be/cI9Pf}
 #'
 #' @seealso [plot.BRIL.MedianRec()], [print.BRIL.MedianRec()], [median_mv()], [depth_values()], [bril()]
 #'
